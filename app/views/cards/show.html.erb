@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="row title">
+        <div class="col-md-10">
+            <h2><%= @card.name %>(<%= @card.code %>)</h2>
+        </div>
+        <div class="col-md-2">
+            <%= link_to("Back to Cards", cards_path) %>
+        </div>
+    </div>
+
+    <div class="row stats">
+        <div class="col-md-6 card-image">
+            <%= image_tag("cards/" + @card.code.gsub("/","-") + ".jpg") %>
+        </div>
+
+        <div class="col-md-3">
+        
+            <div>
+                <h4>Costs</h4>
+                <% @card.costs.each do |cost| %>
+                    <%= image_tag(cost.url) %>
+                <% end %>
+            </div>
+
+            <div>
+                <h4>Card Attribute</h4>
+                <%= @card.card_attribute %>
+            </div>
+
+            <div>
+                <h4>Rarity</h4>
+                <%= @card.rarity %>
+            </div>    
+        </div>
+
+        <div class="col-md-3">
+            <div>
+                <h4>Card Type</h4>
+                <%= @card.card_type %>
+            </div>
+
+            <div>
+                <h4>Sub Type</h4>
+                <%= @card.subtype %>
+            </div>
+
+            <div>
+                <h4>Illustrator</h4>
+                <%= @card.illustrator %>
+            </div>
+
+            <div>
+                <h4>Attack/Defense</h4>
+                <%= @card.attack %> / <%= @card.defense %>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text">
+        <div>
+            <h4>Text</h4>
+            <%= @card.text.gsub(/\n/, '<br />').html_safe %>
+        </div>
+
+        <div>
+            <h4>Flavor Text</h4>
+            <%= @card.flavor %>
+        </div>
+    </div>
+</div>

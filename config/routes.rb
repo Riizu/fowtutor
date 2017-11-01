@@ -3,4 +3,6 @@ Rails.application.routes.draw do
   get 'home/index'
 
   root to: "home#index"
+
+  resources :cards, only: [:index, :show]
 end

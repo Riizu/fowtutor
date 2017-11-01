@@ -1,0 +1,6 @@
+<h1>Cards (<%= @cards.count %> total)</h1>
+<% @cards.each do |card| %>
+<div>
+    <%= link_to(card.name, card_path(card)) %>
+</div>
+<% end %>
