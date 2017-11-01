@@ -21,3 +21,4 @@
 .DS_STORE
 
 app/assets/images/cards/*
+db/scraper

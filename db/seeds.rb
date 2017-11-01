@@ -35,7 +35,7 @@ class Seed
         if scraper || fast_seed
             range = (0..4000)
             @logger.info("Scraping Cards in the range of #{range} - this could take awhile.")
-            require_relative 'scraper'
+            require_relative 'scraper/scraper'
 
             scraper = Scraper.new(range.to_a)
             scraper.start
