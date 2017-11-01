@@ -22,3 +22,4 @@
 
 app/assets/images/cards/*
 db/scraper
+db/logs

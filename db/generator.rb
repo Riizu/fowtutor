@@ -1,14 +1,12 @@
 class Generator
     attr_accessor :attributes, :sets, :deck_name
 
-    def initialize(email, password, sets, attributes, deck_name)
+    def initialize(logger, email, password, sets, attributes, deck_name)
         @sets = sets
         @attributes = attributes
         @deck_name = deck_name
         
-        @logger = Logger.new(STDOUT)
-        @logger.level = Logger::DEBUG
-        @logger.datetime_format = '%Y-%m-%d %H:%M:%S '
+        @logger = logger
 
         @user = generate_user(email, password)
     end

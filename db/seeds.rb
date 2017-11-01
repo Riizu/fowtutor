@@ -6,10 +6,13 @@
 # ========================================================================
 
 require_relative 'generator'
+require_relative 'multi_io'
 
 class Seed
     def initialize
-        @logger = Logger.new(STDOUT)
+        now_stamp = Time.now.strftime('%Y-%m-%d_%H-%M-%S')
+        log_file = File.open("db/logs/seed_log_" + now_stamp + ".rb", "a")
+        @logger = Logger.new(MultiIO.new(STDOUT, log_file))
         @logger.level = Logger::DEBUG
         @logger.datetime_format = '%Y-%m-%d %H:%M:%S '
 
@@ -17,14 +20,14 @@ class Seed
     end
 
     def start
-        puts "Welcome to the FoWTutor seed program. Please follow the prompts to get started."
+        @logger.info("Welcome to the FoWTutor seed program. Please follow the prompts to get started.")
         
         fast_seed = yes_no_prompt("Would you like to use Fast Seed?")
 
         setup_card_data(fast_seed)
         create_users_with_decklists(fast_seed)
         
-        puts "Seeding program complete!"
+        @logger.info("Seeding program complete!")
     end
 
     def setup_card_data(fast_seed)
@@ -106,7 +109,7 @@ class Seed
             deck_name = string_prompt("Please enter the name of the first deck")
         end
           
-        Generator.new(email, password, sets, attributes, deck_name)
+        Generator.new(@logger, email, password, sets, attributes, deck_name)
     end
 
     def random_num_users(fast_seed)
