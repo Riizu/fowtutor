@@ -29,16 +29,46 @@ class Seed
 
     def setup_card_data(fast_seed)
         if !fast_seed
-            scraper = yes_no_prompt("Would you like to use a scraper for card data?")
+            scraper = yes_no_prompt("Would you like to use a scraper or loading program for card data?")
         end
         
-        if scraper || fast_seed
+        if scraper
             range = (0..4000)
             @logger.info("Scraping Cards in the range of #{range} - this could take awhile.")
             require_relative 'scraper/scraper'
 
             scraper = Scraper.new(range.to_a)
-            scraper.start
+            cards = scraper.start
+            load_cards(cards)
+        end
+        
+        if Card.count > 1000
+            @logger.info("1000+ cards found. Assuming Lapis Cluster is present. Proceeding with seed.")
+        else
+            @logger.info("No automated scraper used and an insufficient number of cards found (<1000). Please provide card data per documentation.")
+            exit!
+        end
+    end
+
+    def load_cards(cards)
+        cards.each do |card|
+            new_card_costs = card["costs"].map do |new_cost|
+                Cost.find_or_create_by(name: new_cost["name"])  do |cost|
+                    cost.url = new_cost["url"]
+                end
+            end
+
+            card["costs"] = new_card_costs
+
+            new_card = Card.new(card)
+
+            if new_card.valid?
+                new_card.save!
+            else
+                @logger.info("Invalid card present. Logging card data.")
+                @logger.info(new_card.errors.full_messages.join(", "))
+                @logger.info(new_card)
+            end
         end
     end
     
