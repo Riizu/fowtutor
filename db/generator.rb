@@ -13,7 +13,7 @@ class Generator
 
     def generate_user(email, password)
         @logger.info("Generating a user with the email #{email}.")
-        User.new(email: email, password: password)
+        User.new(email: email, password: password, username: email.split("@")[0])
     end
 
     def generate_decklist
