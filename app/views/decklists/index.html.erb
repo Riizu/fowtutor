@@ -1,0 +1,12 @@
+<table class="table table-striped">
+    <th scope="col">Name</th>
+    <th scope="col">Author</th>
+    <th scope="col">Created At</th>
+    <% @decklists.each do |decklist| %>
+        <tr>
+            <td><%= link_to(decklist.name, decklist_path(decklist)) %></td>
+            <td><%= link_to(decklist.user.username, user_path(decklist.user)) %></td>
+            <td><%= decklist.created_at %></td>
+        </tr>
+    <% end %>
+</table>
