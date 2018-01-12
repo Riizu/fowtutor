@@ -13,12 +13,12 @@ class Generator
 
     def generate_user(email, password)
         @logger.info("Generating a user with the email #{email}.")
-        User.new(email: email, password: password)
+        User.new(email: email, password: password, username: email.split("@")[0])
     end
 
     def generate_decklist
         @logger.info("Generating a decklist named '#{@deck_name}' for '#{@user.email}'.")
-        decklist = Decklist.new(name: @deck_name, user: @user)
+        decklist = Decklist.new(name: @deck_name, user: @user, description: "This is a sick decklist.")
         
         ruler_deck = generate_ruler_deck(decklist)
         main_deck = generate_main_deck(decklist)
