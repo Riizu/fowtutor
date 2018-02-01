@@ -1,6 +1,55 @@
-<h1>Home#index</h1>
-<% @cards.each do |card| %>
-<div>
-    <%= card.name %>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div>
+                <h2>FoW Tutor</h2>
+                <h4>Your Resource for Force of Will</h4>
+            </div>
+
+            <div>
+                <button><%= link_to("Register", new_user_registration_path) %></button>
+                <button><%= link_to("Log In", new_user_session_path) %></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <hr>
+            <h4>Most Recent Decks</h4>
+            <hr>
+            <% @five_most_recent_decks.each do |deck| %>
+                <div class="row">
+                    <div class="col"><%= link_to(deck.name, decklist_path(deck)) %></div>
+                    <div class="col"><%= link_to(deck.user.username, user_path(deck.user)) %></div>
+                </div>
+            <% end %>
+            
+        </div>
+
+        <div class="col">
+            <hr>
+            <h4>Most Viewed Decks</h4>
+            <hr>
+            <% @five_most_viewed_decks.each do |deck| %>
+                <div class="row">
+                    <div class="col"><%= link_to(deck.name, decklist_path(deck)) %></div>
+                    <div class="col"><%= link_to(deck.user.username, user_path(deck.user)) %></div>
+                </div>
+            <% end %>
+        </div>
+
+        <div class="col">
+            <hr>
+            <h4>Top Decks</h4>
+            <hr>
+            <% @five_top_decks.each do |deck| %>
+                <div class="row">
+                    <div class="col"><%= link_to(deck.name, decklist_path(deck)) %></div>
+                    <div class="col"><%= link_to(deck.user.username, user_path(deck.user)) %></div>
+                </div>
+            <% end %>
+        </div>
+    </div>
 </div>
-<% end %>
+
