@@ -4,6 +4,10 @@ class CardsController < ApplicationController
     end
 
     def show
+        session[:return_to] ||= request.url
+
         @card = Card.find(params[:id])
+        @comments = @card.comments
+        @comment = Comment.new
     end
 end

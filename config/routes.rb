@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   get '/users/:id', to: 'users#show', as: 'user'
   root to: "home#index", as: 'home'
 
-  resources :cards, only: [:index, :show]
-  resources :decklists, only: [:index, :show]
+  resources :cards, only: [:index, :show] do
+    resources :comments, module: :cards
+  end
+  resources :decklists, only: [:index, :show] do
+    resources :comments, module: :decklists
+  end
 end

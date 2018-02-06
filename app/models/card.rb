@@ -3,6 +3,8 @@ class Card < ApplicationRecord
     has_many :costs, through: :cards_costs
     has_many :cards_decks
     has_many :decks, through: :cards_decks
+    has_many :comments, as: :commentable
+
 
     validates :name, :code, :card_attribute,
               :card_type, presence: true
