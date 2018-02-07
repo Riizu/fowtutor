@@ -12,6 +12,7 @@ class DecklistsController < ApplicationController
     def new
         if current_user
             @decklist = Decklist.new
+            @cards = Card.last(20)
         else
             flash[:warning] = "You must be logged in to create a decklist."
             redirect_to new_user_sessions_path
@@ -26,7 +27,7 @@ class DecklistsController < ApplicationController
             redirect_to decklist_path(@decklist)
         else
             flash.now[:error] = @decklist.errors.full_messages.join(", ")
-            render :new
+            redirect_to new_decklist_path
         end
     end
 
