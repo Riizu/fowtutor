@@ -2,12 +2,35 @@
     <hr>
     <h4>Cards</h4>
     <hr>
-    
+
     <div style="overflow:scroll; height:400px;">
-        <% cards.each do |card| %>
-            <div>
-                <%= card.name %>
-            </div>
-        <% end%>
+        <table class="table">
+            <% cards.each do |card| %>
+                <tr>
+                    <td>
+                        <select class="form-control">
+                            <option value=0>0</option>
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
+                            <option value=4>4</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <%= card.name %>
+                    </td>
+
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-secondary">Main</button>
+                            <button type="button" class="btn btn-secondary">Stone</button>
+                            <button type="button" class="btn btn-secondary">Side</button>
+                        </div>
+                    </td>
+                </tr>
+            <% end%>
+        </table>
+        
     </div>
 </div>
