@@ -7,7 +7,12 @@ Rails.application.routes.draw do
   resources :cards, only: [:index, :show] do
     resources :comments, module: :cards
   end
+  
   resources :decklists, only: [:index, :show] do
     resources :comments, module: :decklists
+  end
+
+  resources :users, only: [:show] do
+    resources :comments, module: :users
   end
 end
