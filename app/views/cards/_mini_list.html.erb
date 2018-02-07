@@ -3,12 +3,12 @@
     <h4>Cards</h4>
     <hr>
 
-    <div style="overflow:scroll; height:400px;">
+    <div id="mini-card-list" style="overflow:scroll; height:400px;">
         <table class="table">
             <% cards.each do |card| %>
-                <tr>
+                <tr data-name="<%= card.name %>">
                     <td>
-                        <select class="form-control">
+                        <select class="form-control" id="num-cards">
                             <option value=0>0</option>
                             <option value=1>1</option>
                             <option value=2>2</option>
@@ -23,9 +23,10 @@
 
                     <td>
                         <div class="btn-group btn-group-sm" role="group">
-                            <button type="button" class="btn btn-secondary">Main</button>
-                            <button type="button" class="btn btn-secondary">Stone</button>
-                            <button type="button" class="btn btn-secondary">Side</button>
+                            <button type="button" class="btn btn-secondary deck-adjust-button">Main</button>
+                            <button type="button" class="btn btn-secondary deck-adjust-button">Stone</button>
+                            <button type="button" class="btn btn-secondary deck-adjust-button">Side</button>
+                            <button type="button" class="btn btn-secondary deck-adjust-button">Ruler</button>
                         </div>
                     </td>
                 </tr>

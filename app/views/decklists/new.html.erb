@@ -7,13 +7,17 @@
 
     <div class="row">
         <div class="col-md-5">
+            <hr>
+                <h4>Decks</h4>
+            <hr>
+
             <%= render "decklists/deck_div", deck_name: "Ruler" %>
 
-            <%= render "decklists/deck_div", deck_name: "Main Deck" %>
+            <%= render "decklists/deck_div", deck_name: "Main" %>
 
-            <%= render "decklists/deck_div", deck_name: "Stone Deck" %>
+            <%= render "decklists/deck_div", deck_name: "Stone" %>
 
-            <%= render "decklists/deck_div", deck_name: "Side Deck" %>
+            <%= render "decklists/deck_div", deck_name: "Side" %>
 
             <%= render "decklists/form", decklist: @decklist %>
         </div>
