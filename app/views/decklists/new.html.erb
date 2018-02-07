@@ -2,7 +2,14 @@
     <div class="row">
         <div class="col">
             <h2>Create a New Decklist</h2>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-md-4">
+            <%= render "cards/mini_list", cards: @cards %>
+        </div>
+        <div class="col-md-8">
             <%= form_for @decklist do |f| %>
                 <div class="form-group">
                     <%= f.text_field :name, class: "form-control", placeholder: "Deck Name" %>
