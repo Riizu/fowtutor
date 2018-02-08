@@ -1,4 +1,6 @@
 class DecklistsController < ApplicationController
+    respond_to :html, :xml, :json
+
     def index
         @decklists = Decklist.all
     end
@@ -21,19 +23,41 @@ class DecklistsController < ApplicationController
 
     def create
         @decklist = current_user.decklists.new(decklist_params)
-
+        
         if @decklist.save
             flash[:success] = "Your decklist has been successfully created!"
-            redirect_to decklist_path(@decklist)
+            respond_to do |format|
+                format.json { render json: @decklist }
+            end
         else
-            flash.now[:error] = @decklist.errors.full_messages.join(", ")
-            redirect_to new_decklist_path
+            puts @decklist.errors.full_messages.join(", ")
+            flash[:error] = @decklist.errors.full_messages.join(", ")
+            respond_to do |format|
+                format.json { render json: "Test" }
+            end
         end
     end
 
     private
-
     def decklist_params
-        params.require(:decklist).permit(:name, :description)
+        name = params["decklist"]["name"]
+        description = params["decklist"]["description"]
+        decks = []
+        
+        params["decklist"]["decks"].each do |k, v|
+            cards = []
+            
+            if v["cards"] != nil
+                v["cards"].each do |id, card|
+                    card["num"].to_i.times do 
+                        cards << Card.find_by(name: card["name"])
+                    end
+                end
+            end
+
+            decks << Deck.new({name: v["name"], cards: cards })
+        end
+
+        {name: name, description: description, decks: decks}
     end
 end
