@@ -13,4 +13,61 @@ $(document).ready(function(){
             deck_div.append("<div id=" + card_name_sanitized + ">" + num_cards + "x " + card_name + "</div>")
         }
     });
+
+    $("#decklist-submit").click(function(e) {
+        e.preventDefault()
+        
+        deck_divs = $(".deck")
+        decklist_decks = []
+        decklist_name =  $('#name').val()
+        decklist_description = $("#description").val()
+
+        deck_divs.each(function(div) {
+            deck = $(deck_divs[div])
+            deck_name_raw = deck.find('div').attr("id")
+            deck_name = deck_name_raw.split("-")[0]
+            deck_name = deck_name.charAt(0).toUpperCase() + deck_name.slice(1)
+            deck_div = deck.find('#' + deck_name_raw)
+
+            cards_array = []
+
+            deck_div.children().each(function() {
+                card_text = $(this).text().trim()
+                card_name = card_text.substr(card_text.indexOf(' ')+1)
+                card_num = parseInt(card_text.substr(0,card_text.indexOf(' ')).replace(/x/g, ''))
+                cards_array.push({
+                    name: card_name,
+                    num: card_num,
+                })
+            })
+
+            decklist_decks.push({
+                name: deck_name,
+                cards: cards_array
+            })
+
+        })
+
+        decklist = {
+            decklist: {
+                name: decklist_name,
+                description: decklist_description,
+                decks: decklist_decks
+            }
+        }
+
+        console.log(decklist)
+
+        $.ajax({
+            method: "POST",
+            url: "/decklists",
+            data: decklist
+          })
+            .done(function( msg ) {
+                window.location.replace("/decklists/" + msg.id);
+            })
+            .fail(function( msg) {
+                window.location.replace("/decklists/new");
+            })
+    });
 });
