@@ -15,4 +15,8 @@ Rails.application.routes.draw do
   resources :users, only: [:show] do
     resources :comments, module: :users
   end
+
+  namespace :cards do
+    resources :search, only: [:create]
+  end
 end
