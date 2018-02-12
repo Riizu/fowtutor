@@ -1,7 +1,7 @@
 document.addEventListener("turbolinks:load", function() {
-    $(".deck-adjust-button").click(adjustDeck);
-
-    $("#decklist-submit").click(submitDecklist);
+    $(document).on("click", ".deck-adjust-button", adjustDeck)
+    $(document).on("click", "#decklist-submit", submitDecklist)
+    $(document).on("input", "#list-search", updateMiniList)
 }) 
 
 function adjustDeck(e) {
@@ -61,8 +61,6 @@ function submitDecklist(e) {
         }
     }
 
-    console.log(decklist)
-
     $.ajax({
         method: "POST",
         url: "/decklists",
@@ -75,3 +73,64 @@ function submitDecklist(e) {
         window.location.replace("/decklists/new");
     })   
 }
+
+function updateMiniList(e) {
+    inputValue = $(this).val().toLowerCase()
+    
+    listEntries = $(this).parents().siblings('#mini-card-list').find('tr')
+
+    listEntries.each(function() {
+        entry = $(this)
+        entryName = $(this).data("name").toLowerCase()
+
+        if (!entryName.includes(inputValue)) {
+            entry.hide()
+        } else {
+            entry.show()
+        }
+    })
+
+    if(inputValue.length > 2) {
+        data = { "name": inputValue }
+        ApiCall("POST", "/cards/search", data, appendCards)
+    }
+}
+
+function ApiCall(method, target, data, callback) {
+    $.ajax({
+        method: method,
+        url: target,
+        data: data,
+        success: callback
+    })
+}
+
+function appendCards(cards) {
+    cards.forEach(function(card) {
+        name = card.name
+        
+        newCardDiv = $('<tr data-name="' + name + '">\
+        <td>\
+            <select class="form-control" id="num-cards">\
+                <option value=0>0</option>\
+                <option value=1>1</option>\
+                <option value=2>2</option>\
+                <option value=3>3</option>\
+                <option value=4>4</option>\
+            </select>\
+        </td>\n\
+        <td>' + name + '</td>\n\
+        <td>\
+            <div class="btn-group btn-group-sm" role="group">\
+                <button type="button" class="btn btn-secondary deck-adjust-button">Main</button>\
+                <button type="button" class="btn btn-secondary deck-adjust-button">Stone</button>\
+                <button type="button" class="btn btn-secondary deck-adjust-button">Side</button>\
+                <button type="button" class="btn btn-secondary deck-adjust-button">Ruler</button>\
+            </div>\
+        </td>\
+        </tr>')
+
+        $('#mini-card-list').find('table').append(newCardDiv)
+    });
+}
+

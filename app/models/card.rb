@@ -40,4 +40,12 @@ class Card < ApplicationRecord
         end
         cards
     end
+
+    def self.search(search_term)
+        cards = where('lower(name) LIKE ?', "%" + search_term.downcase + "%")
+        cards = cards.or(where('lower(text) LIKE ?', "%" + search_term.downcase + "%"))
+        cards = cards.or(where('lower(card_type) LIKE ?', "%" + search_term.downcase + "%"))
+        cards = cards.or(where('lower(subtype) LIKE ?', "%" + search_term.downcase + "%"))
+        cards = cards.or(where('lower(card_attribute) LIKE ?', "%" + search_term.downcase + "%"))
+    end
 end
