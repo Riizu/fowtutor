@@ -3,40 +3,20 @@
     <h4>Cards</h4>
     <hr>
 
-    <div>
-        <input type="text" placeholder="Search" class="form-control" id="list-search">
-    </div>
-
-
-    <div id="mini-card-list" style="overflow:scroll; height:400px;">
-        <table class="table">
-            <% cards.each do |card| %>
-                <tr data-name="<%= card.name %>">
-                    <td>
-                        <select class="form-control" id="num-cards">
-                            <option value=0>0</option>
-                            <option value=1>1</option>
-                            <option value=2>2</option>
-                            <option value=3>3</option>
-                            <option value=4>4</option>
-                        </select>
-                    </td>
-
-                    <td>
-                        <%= card.name %>
-                    </td>
-
-                    <td>
-                        <div class="btn-group btn-group-sm" role="group">
-                            <button type="button" class="btn btn-secondary deck-adjust-button">Main</button>
-                            <button type="button" class="btn btn-secondary deck-adjust-button">Stone</button>
-                            <button type="button" class="btn btn-secondary deck-adjust-button">Side</button>
-                            <button type="button" class="btn btn-secondary deck-adjust-button">Ruler</button>
-                        </div>
-                    </td>
+    <div id="mini-card-list">
+        <%= content_tag :table, role: :datatable, data: { url: cards_path(format: :json, source: "mini")} do %>
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Name</th>
+                    <th>Target</th>
                 </tr>
-            <% end%>
-        </table>
+            </thead>
+
+            <tbody>
+            </tbody>
+        <% end %>
+
         
     </div>
 </div>
