@@ -7,6 +7,7 @@
 
 require_relative 'generator'
 require_relative 'multi_io'
+require 'progress_bar'
 
 class Seed
     def initialize
@@ -33,6 +34,8 @@ class Seed
     def setup_card_data(fast_seed)
         if !fast_seed
             scraper = yes_no_prompt("Would you like to use a scraper or loading program for card data?")
+        else
+            @logger.info("Assuming card information already scraped and present in db/parsed_cards.txt!")
         end
         
         if scraper
@@ -41,9 +44,10 @@ class Seed
             require_relative 'scraper/scraper'
 
             scraper = Scraper.new(range.to_a)
-            cards = scraper.start
-            load_cards(cards)
+            scraper.start
         end
+
+        load_cards()
         
         if Card.count > 1000
             @logger.info("1000+ cards found. Assuming Lapis Cluster is present. Proceeding with seed.")
@@ -53,7 +57,28 @@ class Seed
         end
     end
 
-    def load_cards(cards)
+    def load_saved_cards_from_file(file_name)
+        loaded_cards = []
+
+        File.open(file_name, 'a+') do |f|
+            data = f.read
+
+            if data != ""
+                loaded_cards = JSON.parse(data)    
+            end
+        end
+
+        @logger.info("Loaded #{loaded_cards.count} Saved Cards into memory.")
+
+        loaded_cards
+    end
+
+    def load_cards()
+        cards = load_saved_cards_from_file("db/parsed_cards.txt")
+        bar = ProgressBar.new(cards.length, :bar, :counter, :percentage, :eta)
+
+        @logger.info("Now loading #{cards.count} Cards into DB.")
+        
         cards.each do |card|
             new_card_costs = card["costs"].map do |new_cost|
                 Cost.find_or_create_by(name: new_cost["name"])  do |cost|
@@ -72,6 +97,8 @@ class Seed
                 @logger.info(new_card.errors.full_messages.join(", "))
                 @logger.info(new_card)
             end
+
+            bar.increment!
         end
     end
     
@@ -79,16 +106,24 @@ class Seed
         num_users = random_num_users(fast_seed)
         
         while num_users > 0
-            generator = build_generator(fast_seed)
             num_decklists = random_num_decklists(fast_seed)
             
-            while num_decklists > 0
-                create_decklist(generator, fast_seed)
-    
-                num_decklists -= 1
-            end
+            if num_decklists > 0
+                generator = build_generator(fast_seed)
+            
+                while num_decklists > 0
+                    create_decklist(generator, fast_seed)
+        
+                    num_decklists -= 1
 
-            generator.save
+                    if num_decklists > 0
+                        update_generator(generator, fast_seed)
+                    end
+                end
+
+                generator.save
+            end
+            
     
             num_users -= 1
         end
@@ -98,18 +133,20 @@ class Seed
         if fast_seed
             email = random_email
             password = random_password
+            username = random_username(email)
             sets = random_sets
             attributes = random_attributes
             deck_name = random_deck_name(attributes)
         else
             email = string_prompt("Enter an email for this user")
             password = string_prompt("Enter a password for this user")
-            sets = array_prompt("Please enter the sets you would like the first deck to use")
-            attributes = array_prompt("Please enter the attributes you would like the first deck to use")
-            deck_name = string_prompt("Please enter the name of the first deck")
+            username = string_prompt("Enter an username for this user")
+            sets = array_prompt("Please enter the sets you would like the first decklist to use")
+            attributes = array_prompt("Please enter the attributes you would like the first decklist to use")
+            deck_name = string_prompt("Please enter the name of the first decklist")
         end
           
-        Generator.new(@logger, email, password, sets, attributes, deck_name)
+        Generator.new(@logger, email, password, username, sets, attributes, deck_name)
     end
 
     def random_num_users(fast_seed)
@@ -136,7 +173,9 @@ class Seed
     
     def create_decklist(generator, fast_seed)
         generator.generate_decklist
+    end
 
+    def update_generator(generator, fast_seed)
         if fast_seed
             generator.sets = random_sets
             generator.attributes = random_attributes
@@ -151,7 +190,6 @@ class Seed
             
             generator.deck_name = string_prompt("Please enter the name of the next deck")
         end
-    
     end
      
     def random_email
@@ -172,19 +210,13 @@ class Seed
     def random_password
         "password"
     end
+
+    def random_username(email)
+        email.split("@")[0]
+    end
     
     def random_sets
-        possible_sets = ["SDL", "CFC", "LEL", "VIN003", "RDE", "ENW"]
-        # sets = []
-    
-        # num_sets = rand(1...6)
-        # num_sets.times do |i|
-        #     set = possible_sets.sample
-        #     possible_sets.delete(set)
-        #     sets << set
-        # end
-    
-        possible_sets
+        ["SDL", "CFC", "LEL", "VIN003", "RDE", "ENW"]
     end
     
     def random_attributes
