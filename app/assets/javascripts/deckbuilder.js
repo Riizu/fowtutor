@@ -1,7 +1,5 @@
-document.addEventListener("turbolinks:load", function() {
-    $(document).on("click", ".deck-adjust-button", adjustDeck)
-    $(document).on("click", "#decklist-submit", submitDecklist)
-}) 
+$(document).on("click", ".deck-adjust-button", adjustDeck)
+$(document).on("click", "#decklist-submit", submitDecklist)
 
 function adjustDeck(e) {
     card_name = ""
@@ -9,19 +7,19 @@ function adjustDeck(e) {
         if($(this).text() != null && $(this).attr("class") == null) {
             card_name = $(this).text()
         }
-    })
+    });
 
-        card_name_sanitized = card_name.replace(/\s+/g, '-').replace(/,/g, '').replace(/'/g, '').replace(/\"/g,'\\"') .toLowerCase();
-        num_cards = $(this).parents('tr').find("#num-cards").val()
-        deck = $(this).text().toLowerCase() + "-deck"
-        console.log(card_name + "|" + num_cards + "|" + deck)
+    card_name_sanitized = card_name.replace(/\s+/g, '-').replace(/,/g, '').replace(/'/g, '').replace(/\"/g,'\\"') .toLowerCase();
+    num_cards = $(this).parents('tr').find("#num-cards").val()
+    deck = $(this).text().toLowerCase() + "-deck"
+    console.log(card_name + "|" + num_cards + "|" + deck)
 
-        deck_div = $("#" + deck)
-        deck_div.find("#" + card_name_sanitized).remove()
+    deck_div = $("#" + deck)
+    deck_div.find("#" + card_name_sanitized).remove()
 
-        if (parseInt(num_cards) > 0) {
-            deck_div.append("<div id=" + card_name_sanitized + ">" + num_cards + "x " + card_name + "</div>")
-        }
+    if (parseInt(num_cards) > 0) {
+        deck_div.append("<div id=" + card_name_sanitized + ">" + num_cards + "x " + card_name + "</div>")
+    }
 }
 
 function submitDecklist(e) {
