@@ -13,9 +13,9 @@ class User < ApplicationRecord
   # Only allow letter, number, underscore and punctuation.
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
 
-  has_many :comments
+  has_many :comments, as: :commentable
   has_many :decklists
-
+  
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)

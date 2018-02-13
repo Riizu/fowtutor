@@ -3,40 +3,45 @@
     <h4>Created on: <%= @decklist.created_at %></h4>
     <div class="row">
         <div class="col-md-12">
-            <h4>
-                <% @ruler_deck.cards.each do |card| %>
-                    <%= link_to(card.name, card_path(card)) %> <br> 
-                <% end %>
-            </h4>
+            <% if @decklist.decks.length != 0 %>
+                <h4>
+                    <% @ruler_deck.cards.each do |card| %>
+                        <%= link_to(card.name, card_path(card)) %> <br> 
+                    <% end %>
+                </h4>
+            <% end %>
         </div>
     </div>
+
     <div class="row">
-        <div class="col-md-8">   
+        <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                        <% @decks.each_with_index do |deck, i| %>
-                            <% if i % 3 == 0 %>
-                                </div>
-                                <div class="row">
-                            <% end %>
-                            <div class="col-md-6" %>
-                                <div>
-                                    <%= deck.name %>(<%= deck.cards.count %>)
-                                    <hr>
-                                </div>
-                                <% deck.sort_by_card_type.each do |card_type, hash_data| %>
-                                    <div>
-                                        <%= card_type %> (<%= hash_data["count"] %>)
-                                        
-                                        <% hash_data["cards"].each do |card, number| %>
-                                            <div>
-                                                <%= link_to("(#{number}) " + card.name, card_path(card)) %>
-                                            </div>
-                                        <% end %>
+                        <% if @decklist.decks.length != 0 %>
+                            <% @decks.each_with_index do |deck, i| %>
+                                <% if i % 3 == 0 %>
                                     </div>
+                                    <div class="row">
                                 <% end %>
-                            </div>
+                                <div class="col-md-6" %>
+                                    <div>
+                                        <%= deck.name %>(<%= deck.cards.count %>)
+                                        <hr>
+                                    </div>
+                                    <% deck.sort_by_card_type.each do |card_type, hash_data| %>
+                                        <div>
+                                            <%= card_type %> (<%= hash_data["count"] %>)
+                                            
+                                            <% hash_data["cards"].each do |card, number| %>
+                                                <div>
+                                                    <%= link_to("(#{number}) " + card.name, card_path(card)) %>
+                                                </div>
+                                            <% end %>
+                                        </div>
+                                    <% end %>
+                                </div>
+                            <% end %>
                         <% end %>
                     </div>
                 </div>
@@ -49,4 +54,6 @@
             <%= @decklist.description %>
         </div>
     </div>
+
+    <%= render "comments/comments", commentable: @decklist %>
 </div>

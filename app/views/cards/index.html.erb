@@ -1,6 +1,18 @@
-<h1>Cards (<%= @cards.count %> total)</h1>
-<% @cards.each do |card| %>
-<div>
-    <%= link_to(card.name, card_path(card)) %>
-</div>
+<div class="container">
+<%= content_tag :table, role: :datatable, data: { url: cards_path(format: :json)} do %>
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Attribute</th>
+            <th>Type</th>
+            <th>Subtype</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    </tbody>
 <% end %>
+</div>
+
+

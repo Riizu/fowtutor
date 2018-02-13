@@ -3,6 +3,8 @@ class Card < ApplicationRecord
     has_many :costs, through: :cards_costs
     has_many :cards_decks
     has_many :decks, through: :cards_decks
+    has_many :comments, as: :commentable
+
 
     validates :name, :code, :card_attribute,
               :card_type, presence: true
@@ -37,5 +39,13 @@ class Card < ApplicationRecord
             cards = cards.or(where(card_attribute: card_attribute))
         end
         cards
+    end
+
+    def self.search(search_term)
+        cards = where('lower(name) LIKE ?', "%" + search_term.downcase + "%")
+        cards = cards.or(where('lower(text) LIKE ?', "%" + search_term.downcase + "%"))
+        cards = cards.or(where('lower(card_type) LIKE ?', "%" + search_term.downcase + "%"))
+        cards = cards.or(where('lower(subtype) LIKE ?', "%" + search_term.downcase + "%"))
+        cards = cards.or(where('lower(card_attribute) LIKE ?', "%" + search_term.downcase + "%"))
     end
 end

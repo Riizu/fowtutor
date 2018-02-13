@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col">
+        <%= form_for decklist do |f| %>
+            <div class="form-group">
+                <%= f.text_field :name, class: "form-control", id: "name", placeholder: "Deck Name" %>
+            </div>
+
+            <div class="form-group">
+                <%= f.text_area :description, class: "form-control", id: "description", placeholder: "Description" %>
+            </div>
+
+            <%= f.submit class: "btn btn-primary", value: "Create Decklist", id: "decklist-submit" %> 
+        <% end %>
+    </div>
+</div>

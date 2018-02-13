@@ -10,6 +10,11 @@
 
   <body>
     <%= render "shared/navbar" %>
+
+    <% flash.each do |name, message| %>
+      <%= content_tag :div, raw(message), id: "flash_#{name}" %>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

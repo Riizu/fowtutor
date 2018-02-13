@@ -1,0 +1,16 @@
+<hr>
+<h4>Comments</h4>
+<hr>
+<%= render partial: "comments/form", locals: {commentable: commentable} %>
+<hr>
+
+<div>
+    <% commentable.comments.each do |comment| %>
+        <div>
+            <div><b><%= link_to(comment.user.username, user_path(comment.user)) %></b> - <%= comment.created_at %> </div>
+            <div><%= comment.body %></div>
+        </div>
+    <% end %>
+</div>
+
+

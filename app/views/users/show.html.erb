@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <%= image_tag(@user.avatar_url) %>
+        </div>
+        <div class="col-md-10">
+            <h2><%= @user.username.capitalize %></h2>
+            <h4>Joined: <%= @user.created_at %></h4>
+            <h4>Total Comments: <%= @comment_count %></h4>
+            <h4>Total Decklists: <%= @decklist_count %></h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <hr>
+            <h4>Decklists</h4>
+            <hr>
+            
+            <% @decklists.each do |decklist| %>
+                <div><%= link_to(decklist.name, decklist_path(decklist)) %></div>
+            <% end %>
+        </div>
+
+        <div class="col-md-8">
+            <%= render "comments/comments", commentable: @user %>
+        </div>
+    </div>
+</div>

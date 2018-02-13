@@ -1,19 +1,19 @@
 class Generator
     attr_accessor :attributes, :sets, :deck_name
 
-    def initialize(logger, email, password, sets, attributes, deck_name)
+    def initialize(logger, email, password, username, sets, attributes, deck_name)
         @sets = sets
         @attributes = attributes
         @deck_name = deck_name
         
         @logger = logger
 
-        @user = generate_user(email, password)
+        @user = generate_user(email, password, username)
     end
 
-    def generate_user(email, password)
+    def generate_user(email, password, username)
         @logger.info("Generating a user with the email #{email}.")
-        User.new(email: email, password: password, username: email.split("@")[0])
+        User.new(email: email, password: password, username: username)
     end
 
     def generate_decklist

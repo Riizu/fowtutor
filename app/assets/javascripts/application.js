@@ -10,9 +10,25 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery3
+//= require jquery
+//= require datatables
 //= require popper
 //= require bootstrap
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
+
+$(document).on('turbolinks:load', function() {
+    $("table[role='datatable']").each(function() {
+      $(this).DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+          "url": $(this).data('url'),
+          "data": function(d) {
+            d.source = $(this).data('source')
+          }
+        }
+      });
+    });  
+  })

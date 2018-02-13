@@ -1,0 +1,22 @@
+<div class="col">
+    <hr>
+    <h4>Cards</h4>
+    <hr>
+
+    <div id="mini-card-list">
+        <%= content_tag :table, role: :datatable, data: { url: cards_path(format: :json, source: "mini")} do %>
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Name</th>
+                    <th>Target</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            </tbody>
+        <% end %>
+
+        
+    </div>
+</div>
