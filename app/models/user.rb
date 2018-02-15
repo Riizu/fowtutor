@@ -15,6 +15,7 @@ class User < ApplicationRecord
 
   has_many :comments, as: :commentable
   has_many :decklists
+  has_many :collections
   
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
