@@ -8,17 +8,21 @@ class Decklist < ApplicationRecord
     validates :description, presence: true
 
     def cards_needed_to_build(collections)
-        decklist_cards_gbc = group_by_count(cards)
-        matching_collection_cards_gbc = group_collections_by_count(collections, cards)
+        decklist_cards_gbc = group_by_count(cards)    
+        matching_collection_cards_gbc = group_collections_by_count(collections, decklist_cards_gbc)
 
         remaining = {}
 
-        decklist_cards_gbc.each do |card_name, amount|
-            collection_amount = matching_collection_cards_gbc[card_name]
-            remaining_amount = amount - collection_amount
+        decklist_cards_gbc.each do |card_name, amount_and_id|
+            if matching_collection_cards_gbc[card_name]
+                collection_amount = matching_collection_cards_gbc[card_name]
+                remaining_amount = amount_and_id[0] - collection_amount
 
-            if remaining_amount > 0
-                remaining[card_name] = remaining_amount
+                if remaining_amount > 0
+                    remaining[card_name] = remaining_amount
+                end
+            else
+                remaining[card_name] = amount_and_id[0]
             end
         end
 
@@ -41,10 +45,11 @@ class Decklist < ApplicationRecord
 
         card_set.each do |card|
             if grouped_cards[card.name] == nil
-                grouped_cards[card.name] = 0
+                grouped_cards[card.name] = [0,[]]
             end
 
-            grouped_cards[card.name] += 1
+            grouped_cards[card.name][0] += 1
+            grouped_cards[card.name][1] << card.id
         end
 
         grouped_cards
@@ -54,15 +59,35 @@ class Decklist < ApplicationRecord
         grouped_cards = {}
 
         cards_collections = collections.inject([]) { |sum, n| sum + n.cards_collections }
-        card_set.each do |card|
-            matching_collections = cards_collections.select {|cards_collection| cards_collection.card.name == card.name}
-            total_amount = matching_collections.inject(0) {|sum, n| sum + n.amount }
-
-            if grouped_cards[card.name] == nil
-                grouped_cards[card.name] = 0
+        matching_cards = collections.inject([]) {|sum, collection| sum + collection.cards.where(name: card_set.keys) }
+        matching_by_name = matching_cards.group_by {|card| card.name }
+        name_and_ids = {}
+        
+        matching_by_name.each do |name, cards| 
+            if name_and_ids[name] == nil
+                name_and_ids[name] = []
             end
 
-            grouped_cards[card.name] += total_amount
+            cards.each do |card|
+                name_and_ids[name] << card.id
+            end
+            
+        end
+
+        matching_cards_collections = cards_collections.select do |cards_collection| 
+            name_and_ids.values.flatten.include?(cards_collection.card_id)
+        end
+
+        matching_cards_collections.each do |cards_collection|
+            name_and_ids.each do |name, ids|
+                if ids.include?(cards_collection.card_id)
+                    if grouped_cards[name] == nil
+                        grouped_cards[name] = 0
+                    end
+
+                    grouped_cards[name] += cards_collection.amount
+                end
+            end
         end
 
         grouped_cards
