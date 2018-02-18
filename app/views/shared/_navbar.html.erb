@@ -36,7 +36,7 @@
 
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="<%= user_path(current_user) %>">Profile</a>
-            <a class="dropdown-item" href="#">Collection</a>
+            <a class="dropdown-item" href="<%= user_collections_path(current_user) %>">Collections</a>
             <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "dropdown-item") %>  
           </div>
         </li>

@@ -1,0 +1,11 @@
+<%= form_for collection, :url => url_for(:controller => 'users/collections', :action => 'create') do |f| %>
+    <div class="form-group">
+        <%= f.text_field :name, class: "form-control", id: "name", placeholder: "Collection Name" %>
+    </div>
+
+    <div class="form-group">
+        <%= text_area_tag :cards, nil, class: "form-control", id: "cards", placeholder: "eg. 1x Severing Winds"%>
+    </div>
+
+    <%= f.submit class: "btn btn-primary", value: "Create Collection"%> 
+<% end %>

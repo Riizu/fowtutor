@@ -1,0 +1,7 @@
+<%= form_for collection, :url => url_for(:controller => 'users/collections', :action => 'update') do |f| %>
+    <div class="form-group">
+        <%= f.text_field :name, class: "form-control", id: "name", placeholder: "Collection Name" %>
+    </div>
+
+    <%= f.submit class: "btn btn-primary", value: "Update Collection"%> 
+<% end %>

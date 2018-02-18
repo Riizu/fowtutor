@@ -4,11 +4,20 @@ class Card < ApplicationRecord
     has_many :cards_decks
     has_many :decks, through: :cards_decks
     has_many :comments, as: :commentable
+    has_many :cards_collections
+    has_many :collections, through: :cards_collections
 
 
     validates :name, :code, :card_attribute,
               :card_type, presence: true
     validates :code, uniqueness: true
+
+    scope :by_distinct_names, ->(names) {
+        name_lower = arel_attribute(:name).lower
+        where(name_lower.in(names.map(&:downcase))).tap do |relation|
+        relation.arel.distinct_on(name_lower)
+        end
+    }
 
 
     def self.find_sets(sets_array)
