@@ -14,7 +14,7 @@ class Decklist < ApplicationRecord
         remaining = {}
 
         decklist_cards_gbc.each do |card_name, amount_and_id|
-            if matching_collection_cards_gbc[card_name]
+            if matching_collection_cards_gbc[card_name] != nil
                 collection_amount = matching_collection_cards_gbc[card_name]
                 remaining_amount = amount_and_id[0] - collection_amount
 
@@ -29,7 +29,7 @@ class Decklist < ApplicationRecord
         final_result = {}
 
         remaining.each do |card_name, amount|
-            card = cards.find {|card| card.name == card_name }
+            card = cards.find {|card| card.name.downcase == card_name }
             final_result[card] = amount
         end
 
@@ -44,12 +44,13 @@ class Decklist < ApplicationRecord
         grouped_cards = {}
 
         card_set.each do |card|
-            if grouped_cards[card.name] == nil
-                grouped_cards[card.name] = [0,[]]
+            name = card.name.downcase
+            if grouped_cards[name] == nil
+                grouped_cards[name] = [0,[]]
             end
 
-            grouped_cards[card.name][0] += 1
-            grouped_cards[card.name][1] << card.id
+            grouped_cards[name][0] += 1
+            grouped_cards[name][1] << card.id
         end
 
         grouped_cards
@@ -59,17 +60,22 @@ class Decklist < ApplicationRecord
         grouped_cards = {}
 
         cards_collections = collections.inject([]) { |sum, n| sum + n.cards_collections }
-        matching_cards = collections.inject([]) {|sum, collection| sum + collection.cards.where(name: card_set.keys) }
+        
+        matching_cards = collections.inject([]) do |sum, collection| 
+            sum + collection.cards.where("lower(name) in (?)", card_set.keys.map(&:downcase)) 
+        end
+
         matching_by_name = matching_cards.group_by {|card| card.name }
         name_and_ids = {}
         
         matching_by_name.each do |name, cards| 
-            if name_and_ids[name] == nil
-                name_and_ids[name] = []
+            downcased_name = name.downcase
+            if name_and_ids[downcased_name] == nil
+                name_and_ids[downcased_name] = []
             end
 
             cards.each do |card|
-                name_and_ids[name] << card.id
+                name_and_ids[downcased_name] << card.id
             end
             
         end
