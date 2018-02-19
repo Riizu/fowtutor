@@ -1,6 +1,19 @@
 <div class="container">
     <h2><%= @decklist.name %></h2>
     <h4>Created on: <%= @decklist.created_at %></h4>
+    <h4>Cards Needed: 
+        
+    <% if @cards_needed.length > 0 %>
+        </h4>
+        <ul>
+            <% @cards_needed.each do |card, amount| %>
+                <li>(<%= amount %>) <%= link_to(card.name, card_path(card)) %></li>
+            <% end %>
+        </ul>
+    <% else %>
+        None!</h4>
+    <% end %>
+    
     <div class="row">
         <div class="col-md-12">
             <% if @decklist.decks.length != 0 %>
