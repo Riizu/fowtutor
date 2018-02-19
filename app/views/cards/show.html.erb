@@ -10,7 +10,11 @@
 
     <div class="row stats">
         <div class="col-md-6 card-image">
-            <%= image_tag("cards/" + @card.code.gsub("/","-") + ".jpg") %>
+            <% if @card.image_exists? %>
+                <%= image_tag("cards/" + @card.code.gsub("/","-") + ".jpg") %>  
+            <% else %>
+                <%= image_tag("card_back.jpg") %>
+            <% end %>
         </div>
 
         <div class="col-md-3">
