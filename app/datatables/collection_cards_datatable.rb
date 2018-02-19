@@ -39,13 +39,13 @@ class CollectionCardsDatatable < ApplicationDatatable
     def fetch_cards
         search_string = []
         columns.each do |term|
-            search_string << "#{term} like :search"
+            search_string << "lower(#{term}) like :search"
         end
 
         cards = Collection.find(params[:id]).cards
         cards = cards.order("#{sort_column} #{sort_direction}")
         cards = cards.page(page).per(per_page)
-        cards = cards.where(search_string.join(' or '), search: "%#{params[:search][:value]}%")
+        cards = cards.where(search_string.join(' or '), search: "%#{params[:search][:value].downcase}%")
     end
 
     def columns

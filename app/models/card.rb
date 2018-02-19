@@ -19,6 +19,16 @@ class Card < ApplicationRecord
         end
     }
 
+    def image_exists?
+        path = "cards/" + code.gsub("/","-") + ".jpg"
+        
+        if Rails.configuration.assets.compile
+            Rails.application.precompiled_assets.include? path
+        else
+            Rails.application.assets_manifest.assets[path].present?
+        end
+    end
+
 
     def self.find_sets(sets_array)
         first_set = sets_array.first
