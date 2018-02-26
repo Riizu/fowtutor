@@ -18,8 +18,7 @@ class CardsDatatable < ApplicationDatatable
                     column << card.code
                 end
                 
-                column << card.name
-
+                column << link_to(card.name, "/cards/#{card.id}")
                 if params["source"] == "mini"
                     column << ""\
                     '<div class="btn-group btn-group-sm" role="group">'\

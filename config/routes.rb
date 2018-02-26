@@ -2,9 +2,10 @@ Rails.application.routes.draw do
   devise_for :users
   get '/deckbuilder/', to: 'decklists#new', as: 'deckbuilder'
   get '/users/:id', to: 'users#show', as: 'user'
+  get 'tags/:tag', to: 'cards#index', as: :card_tag
   root to: "home#index", as: 'home'
 
-  resources :cards, only: [:index, :show] do
+  resources :cards, only: [:index, :show, :edit, :update] do
     resources :comments, module: :cards
   end
   
