@@ -16,10 +16,10 @@ class DecklistsController < ApplicationController
 
     def edit
         @decklist = Decklist.find(params[:id])
-        @ruler_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Ruler").cards)
-        @main_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Main Deck").cards)
-        @stone_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Stone Deck").cards)
-        @side_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Side Deck").cards)
+        @ruler_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Ruler").cards, false)
+        @main_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Main Deck").cards, false)
+        @stone_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Stone Deck").cards, false)
+        @side_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Side Deck").cards, false)
     end
 
     def update
