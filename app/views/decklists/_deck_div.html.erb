@@ -1,7 +1,12 @@
 <div class="row">
     <div class="col deck">
+        <% card_count = 0 %>
+        
+        <% if cards %>
+            <% card_count = cards.inject(0) {|sum, card| sum + card[1][0]} %>
+        <% end %>
         <hr>
-            <h4><%= deck_name %></h4>
+            <h4><%= deck_name %>(<%= card_count %>)</h4>
         <hr>
 
         <div id="<%= deck_name.downcase + "-deck" %>">

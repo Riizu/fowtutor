@@ -11,22 +11,51 @@ function adjustDeck(e) {
     });
 
     card_name_sanitized = card_name.replace(/\s+/g, '-').replace(/,/g, '').replace(/'/g, '').replace(/\"/g,'\\"') .toLowerCase();
-    num_cards = $(this).parents('tr').find("#num-cards").val()
+    num_cards = $(this).parents('tr').find("#num-cards").val() 
     deck = $(this).text().toLowerCase() + "-deck"
     console.log(card_name + "|" + num_cards + "|" + deck)
 
     deck_div = $("#" + deck)
-    deck_div.find("#" + card_name_sanitized).remove()
+    deck_div.find("#" + card_name_sanitized).parent('div').remove()
 
     if (parseInt(num_cards) > 0) {
-        card_div = deck_div.append("<div></div")
-        card_div.append("<button type='button' class='btn btn-default decklist-remove-card'><i class='fa fa-times'></i></button>")
-        card_div.append("<span id=" + card_name_sanitized + ">" + num_cards + "x " + card_name + "</span>")
+        card_div = $("<div></div").appendTo(deck_div)
+        $("<button type='button' class='btn btn-default decklist-remove-card'><i class='fa fa-times'></i></button>").appendTo(card_div)
+        $("<span id=" + card_name_sanitized + ">" + num_cards + "x " + card_name + "</span>").appendTo(card_div)
     }
+
+    new_total = countCards(deck_div)
+    updateCardCount(deck_div, new_total)
+    
 }
 
 function removeCard(e) {
+    deck_div = $(this).parents('div')[1]
+    current_total = countCards(deck_div)
+    amount_to_remove = parseInt($(this).siblings('span')[0].innerText.split(" ", 1)[0].replace("x", ""))
+    remaining = current_total - amount_to_remove
+    updateCardCount(deck_div, remaining)
     $(this).closest('div').remove()
+    
+}
+
+function countCards(deck_div) {
+    unique_cards = $(deck_div).find('span')
+    total = 0
+
+    unique_cards.each(function() {
+        card = $(this)[0]
+        amount = parseInt(card.innerText.split(" ", 1)[0].replace("x", ""))
+        total += amount
+    })
+
+    return total
+}
+
+function updateCardCount(deck_div, count) {
+    deck_name = $(deck_div).attr('id').split("-", 1)[0]
+    deck_name_capitalized = deck_name.charAt(0).toUpperCase() + deck_name.slice(1)
+    $(deck_div).parent('.deck').find('h4')[0].innerText = deck_name_capitalized + "(" + count + ")"
 }
 
 function submitDecklist(e) {
