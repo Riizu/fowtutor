@@ -5,6 +5,12 @@
         <hr>
 
         <div id="<%= deck_name.downcase + "-deck" %>">
+            <% if cards %>
+                <% cards.each do |name, amount_and_ids| %>
+                    <% card_name = name.downcase.gsub(" ", "-").gsub("'", "").gsub(",","") %>
+                    <div id="<%= card_name %>"><%= "#{amount_and_ids[0]}x #{name}"%></div>
+                <% end %>
+            <% end %>
         </div>
     </div>
 </div>

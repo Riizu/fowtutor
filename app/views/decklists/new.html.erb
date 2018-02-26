@@ -11,15 +11,15 @@
                 <h4>Decks</h4>
             <hr>
 
-            <%= render "decklists/deck_div", deck_name: "Ruler" %>
+            <%= render "decklists/deck_div", deck_name: "Ruler", cards: nil %>
 
-            <%= render "decklists/deck_div", deck_name: "Main" %>
+            <%= render "decklists/deck_div", deck_name: "Main", cards: nil %>
 
-            <%= render "decklists/deck_div", deck_name: "Stone" %>
+            <%= render "decklists/deck_div", deck_name: "Stone", cards: nil %>
 
-            <%= render "decklists/deck_div", deck_name: "Side" %>
+            <%= render "decklists/deck_div", deck_name: "Side", cards: nil %>
 
-            <%= render "decklists/form", decklist: @decklist %>
+            <%= render "decklists/form", decklist: @decklist, value: "Create Decklist" %>
         </div>
 
         <div class="col-md-7">

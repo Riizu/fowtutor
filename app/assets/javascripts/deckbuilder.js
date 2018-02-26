@@ -25,6 +25,21 @@ function adjustDeck(e) {
 function submitDecklist(e) {
     e.preventDefault()
         
+    submission_target = $(this).val().toLowerCase()
+
+    if(submission_target.includes("update")) {
+        submission_target = "PATCH"
+        fail_target = "/decklists/edit"
+        base_url = window.location.pathname.split("/")
+        id = base_url[base_url.length-2]
+        url = "/decklists/" + id
+        fail_target = "/decklists/" + id + "/edit"
+    } else {
+        submission_target = "POST"
+        url = "/decklists"
+        fail_target = "/decklists/new"
+    }
+
     deck_divs = $(".deck")
     decklist_decks = []
     decklist_name =  $('#name').val()
@@ -65,14 +80,14 @@ function submitDecklist(e) {
     }
 
     $.ajax({
-        method: "POST",
-        url: "/decklists",
+        method: submission_target,
+        url: url,
         data: decklist
     })
     .done(function( msg ) {
         window.location.replace("/decklists/" + msg.id);
     })
     .fail(function( msg) {
-        window.location.replace("/decklists/new");
+        window.location.replace(fail_target);
     })   
 }

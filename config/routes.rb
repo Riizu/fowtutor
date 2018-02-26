@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :comments, module: :cards
   end
   
-  resources :decklists, only: [:index, :show, :new, :create] do
+  resources :decklists, only: [:index, :show, :new, :create, :edit, :update] do
     resources :comments, module: :decklists
   end
 
