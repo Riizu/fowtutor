@@ -8,7 +8,10 @@
             <% if cards %>
                 <% cards.each do |name, amount_and_ids| %>
                     <% card_name = name.downcase.gsub(" ", "-").gsub("'", "").gsub(",","") %>
-                    <div id="<%= card_name %>"><%= "#{amount_and_ids[0]}x #{name}"%></div>
+                    <div>
+                        <button type='button' class='btn btn-default decklist-remove-card'><i class='fa fa-times'></i></button>
+                        <div id="<%= card_name %>"><%= "#{amount_and_ids[0]}x #{name}"%></div>
+                    </div>
                 <% end %>
             <% end %>
         </div>

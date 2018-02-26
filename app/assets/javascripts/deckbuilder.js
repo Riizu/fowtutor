@@ -20,7 +20,7 @@ function adjustDeck(e) {
 
     if (parseInt(num_cards) > 0) {
         card_div = deck_div.append("<div></div")
-        card_div.append("<button type='button' class='btn btn-default decklist-remove-card'><i class='fas fa-times'></i></button>")
+        card_div.append("<button type='button' class='btn btn-default decklist-remove-card'><i class='fa fa-times'></i></button>")
         card_div.append("<span id=" + card_name_sanitized + ">" + num_cards + "x " + card_name + "</span>")
     }
 }
