@@ -1,18 +1,29 @@
 <div class="container">
-    <h2><%= @decklist.name %></h2>
-    <h4>Created on: <%= @decklist.created_at %></h4>
-    <h4>Cards Needed: 
-        
-    <% if @cards_needed.length > 0 %>
-        </h4>
-        <ul>
-            <% @cards_needed.each do |card, amount| %>
-                <li>(<%= amount %>) <%= link_to(card.name, card_path(card)) %></li>
+    <div class="row">
+        <div class="col-md-10">
+            <h2><%= @decklist.name %></h2>
+            <h4>Created on: <%= @decklist.created_at %></h4>
+            <h4>Cards Needed: 
+                
+            <% if @cards_needed.length > 0 %>
+                </h4>
+                <ul>
+                    <% @cards_needed.each do |card, amount| %>
+                        <li>(<%= amount %>) <%= link_to(card.name, card_path(card)) %></li>
+                    <% end %>
+                </ul>
+            <% else %>
+                None!</h4>
             <% end %>
-        </ul>
-    <% else %>
-        None!</h4>
-    <% end %>
+        </div>
+
+        <div class="col-md-2">
+            <%= form_tag(edit_decklist_path(@decklist), method: "GET") do %>
+                <div><%= submit_tag 'EDIT', class: "btn btn-sm btn-primary btn-block" %></div>
+            <% end %>
+        </div>
+    </div>
+    
     
     <div class="row">
         <div class="col-md-12">

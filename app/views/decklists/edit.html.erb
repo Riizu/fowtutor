@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Editing: <%= @decklist.name%></h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <hr>
+                <h4>Decks</h4>
+            <hr>
+
+            <%= render "decklists/deck_div", deck_name: "Ruler", cards: @ruler_cards %>
+
+            <%= render "decklists/deck_div", deck_name: "Main", cards: @main_cards %>
+
+            <%= render "decklists/deck_div", deck_name: "Stone", cards: @stone_cards %>
+
+            <%= render "decklists/deck_div", deck_name: "Side", cards: @side_cards %>
+
+            <%= render "decklists/form", decklist: @decklist, value: "Update Decklist" %>
+        </div>
+
+        <div class="col-md-7">
+            <%= render "cards/mini_list" %>
+        </div>
+    </div>
+</div>

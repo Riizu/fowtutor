@@ -1,4 +1,6 @@
 class DecklistsController < ApplicationController
+    before_action :authenticate_user!, only: [:edit, :update, :create]
+
     respond_to :html, :xml, :json
 
     def index
@@ -10,6 +12,29 @@ class DecklistsController < ApplicationController
         @ruler_deck = @decklist.decks.find_by(name: "Ruler")
         @decks = @decklist.decks.where.not(name: "Ruler").order(:name)
         @cards_needed = @decklist.cards_needed_to_build(current_user.collections)
+    end
+
+    def edit
+        @decklist = current_user.decklists.find(params[:id])
+        @ruler_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Ruler").cards)
+        @main_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Main").cards)
+        @stone_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Stone").cards)
+        @side_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Side").cards)
+    end
+
+    def update
+        @decklist = current_user.decklists.find(params[:id])
+        if @decklist.update(decklist_params)
+            flash[:success] = "Your decklist has been successfully updated!"
+            respond_to do |format|
+                format.json { render json: @decklist }
+            end
+        else
+            flash[:error] = @decklist.errors.full_messages.join(", ")
+            respond_to do |format|
+                format.json { render json: "Test" }
+            end
+        end
     end
 
     def new
@@ -56,7 +81,7 @@ class DecklistsController < ApplicationController
                 end
             end
 
-            byebug
+            # byebug
 
             decks << Deck.new({name: v["name"], cards: cards })
         end
