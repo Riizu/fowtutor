@@ -1,4 +1,5 @@
 $(document).on("click", ".deck-adjust-button", adjustDeck)
+$(document).on("click", ".decklist-remove-card", removeCard)
 $(document).on("click", "#decklist-submit", submitDecklist)
 
 function adjustDeck(e) {
@@ -18,8 +19,14 @@ function adjustDeck(e) {
     deck_div.find("#" + card_name_sanitized).remove()
 
     if (parseInt(num_cards) > 0) {
-        deck_div.append("<div id=" + card_name_sanitized + ">" + num_cards + "x " + card_name + "</div>")
+        card_div = deck_div.append("<div></div")
+        card_div.append("<button type='button' class='btn btn-default decklist-remove-card'><i class='fas fa-times'></i></button>")
+        card_div.append("<span id=" + card_name_sanitized + ">" + num_cards + "x " + card_name + "</span>")
     }
+}
+
+function removeCard(e) {
+    $(this).closest('div').remove()
 }
 
 function submitDecklist(e) {
