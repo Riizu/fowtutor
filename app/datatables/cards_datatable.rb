@@ -2,10 +2,11 @@ class CardsDatatable < ApplicationDatatable
     private
 
     def data
-        # byebug
         cards.map do |card|
             [].tap do |column|
                 if params["source"] == "mini"
+                    column << card.code
+
                     column << ""\
                     '<select class="form-control" id="num-cards">'\
                         '<option value=0>0</option>'\
