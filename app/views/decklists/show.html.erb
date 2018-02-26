@@ -17,11 +17,14 @@
             <% end %>
         </div>
 
-        <div class="col-md-2">
-            <%= form_tag(edit_decklist_path(@decklist), method: "GET") do %>
-                <div><%= submit_tag 'EDIT', class: "btn btn-sm btn-primary btn-block" %></div>
-            <% end %>
-        </div>
+
+        <% if current_user.id == @decklist.user.id %>
+            <div class="col-md-2">
+                <%= form_tag(edit_decklist_path(@decklist), method: "GET") do %>
+                    <div><%= submit_tag 'EDIT', class: "btn btn-sm btn-primary btn-block" %></div>
+                <% end %>
+            </div>
+        <% end %>
     </div>
     
     
@@ -76,6 +79,26 @@
             <%= @decklist.user.username %>
             <hr>
             <%= @decklist.description %>
+
+            <div class="row">
+                <div class="col">
+                    
+                    <hr>
+                    <h4>Tags</h4>
+                    <% if @decklist.tag_list.length > 0 %>
+                        <% @decklist.tag_list.each do |t| %>
+                            <%= link_to t, card_tag_path(t) %>
+                            
+                        <% end %>
+                    <% else %>
+                        No Tags Exist!
+                    <% end %>
+
+                    <%= form_tag(edit_decklist_path(@decklist), method: "GET") do %>
+                        <div><%= submit_tag 'Add Tags', class: "btn btn-sm btn-primary" %></div>
+                    <% end %>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -19,11 +19,27 @@
 
             <%= render "decklists/deck_div", deck_name: "Side", cards: @side_cards %>
 
-            <%= render "decklists/form", decklist: @decklist, value: "Update Decklist" %>
+            <% if current_user.id == @decklist.user.id %>
+                <%= render "decklists/form", decklist: @decklist, value: "Update Decklist" %>
+            <% else %>
+            
+            <% end %>
         </div>
 
         <div class="col-md-7">
-            <%= render "cards/mini_list" %>
+            <% if current_user.id == @decklist.user.id %>
+                <%= render "cards/mini_list" %>
+            <% end %>
+
+            <h4>Update Tags</h4>
+            <%= form_for @decklist do |f| %>
+                <div class="form-group">
+                    <%= f.label :tag_list, 'Tags (separated by commas)' %><br/>
+                    <%= f.text_field :tag_list %>
+                </div>
+
+                <%= f.submit class: "btn btn-primary", value: "Update Tags" %> 
+            <% end %>            
         </div>
     </div>
 </div>

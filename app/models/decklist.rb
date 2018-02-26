@@ -1,4 +1,6 @@
 class Decklist < ApplicationRecord
+    acts_as_taggable
+
     belongs_to :user
     has_many :decks
     has_many :comments, as: :commentable
