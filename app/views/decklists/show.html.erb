@@ -5,7 +5,7 @@
             <h4>Created on: <%= @decklist.created_at %></h4>
             <h4>Cards Needed: 
                 
-            <% if @cards_needed.length > 0 %>
+            <% if @cards_needed && @cards_needed.length > 0 %>
                 </h4>
                 <ul>
                     <% @cards_needed.each do |card, amount| %>
@@ -17,8 +17,7 @@
             <% end %>
         </div>
 
-
-        <% if current_user.id == @decklist.user.id %>
+        <% if current_user && current_user.id == @decklist.user.id %>
             <div class="col-md-2">
                 <%= form_tag(edit_decklist_path(@decklist), method: "GET") do %>
                     <div><%= submit_tag 'EDIT', class: "btn btn-sm btn-primary btn-block" %></div>
@@ -27,10 +26,12 @@
         <% end %>
 
         <div>
-            <% unless current_user.favorite_decklists.exists?(id: @decklist.id) %>
-                <%= link_to 'Add to favorites', favorite_decklists_path(decklist_id: @decklist.id), method: :post %>
-            <% else %>
-                <%= link_to 'Remove from favorites', favorite_decklist_path(@decklist), method: :delete %>
+            <% if current_user %>
+                <% unless current_user.favorite_decklists.exists?(id: @decklist.id) %>
+                    <%= link_to 'Add to favorites', favorite_decklists_path(decklist_id: @decklist.id), method: :post %>
+                <% else %>
+                    <%= link_to 'Remove from favorites', favorite_decklist_path(@decklist), method: :delete %>
+                <% end %>
             <% end %>
         </div>
     </div>
@@ -102,8 +103,10 @@
                         No Tags Exist!
                     <% end %>
 
-                    <%= form_tag(edit_decklist_path(@decklist), method: "GET") do %>
-                        <div><%= submit_tag 'Add Tags', class: "btn btn-sm btn-primary" %></div>
+                    <% if current_user %>
+                        <%= form_tag(edit_decklist_path(@decklist), method: "GET") do %>
+                            <div><%= submit_tag 'Add Tags', class: "btn btn-sm btn-primary" %></div>
+                        <% end %>
                     <% end %>
                 </div>
             </div>

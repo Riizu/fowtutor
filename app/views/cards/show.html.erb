@@ -71,8 +71,10 @@
                 No Tags Exist!
             <% end %>
 
-            <%= form_tag(edit_card_path(@card), method: "GET") do %>
-                <div><%= submit_tag 'Add Tags', class: "btn btn-sm btn-primary" %></div>
+            <% if current_user %>
+                <%= form_tag(edit_card_path(@card), method: "GET") do %>
+                    <div><%= submit_tag 'Add Tags', class: "btn btn-sm btn-primary" %></div>
+                <% end %>
             <% end %>
         </div>
     </div>
