@@ -4,7 +4,7 @@ class DecklistsController < ApplicationController
     respond_to :html, :xml, :json
 
     def index
-        @decklists = Decklist.all
+        @decklists = Decklist.page(params[:page])
     end
 
     def show
@@ -15,26 +15,39 @@ class DecklistsController < ApplicationController
     end
 
     def edit
-        @decklist = current_user.decklists.find(params[:id])
-        @ruler_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Ruler").cards)
-        @main_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Main").cards)
-        @stone_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Stone").cards)
-        @side_cards = @decklist.group_by_count(@decklist.decks.find_by(name: "Side").cards)
+        @decklist = Decklist.find(params[:id])
+        @ruler_cards = @decklist.group_by_count(@decklist.decks.find_by("lower(name) like ?", "ruler").cards, false)
+        @main_cards = @decklist.group_by_count(@decklist.decks.find_by("lower(name) like ?", "main").cards, false)
+        @stone_cards = @decklist.group_by_count(@decklist.decks.find_by("lower(name) like ?", "stone").cards, false)
+        @side_cards = @decklist.group_by_count(@decklist.decks.find_by("lower(name) like ?", "side").cards, false)
     end
 
     def update
-        @decklist = current_user.decklists.find(params[:id])
-        if @decklist.update(decklist_params)
-            flash[:success] = "Your decklist has been successfully updated!"
-            respond_to do |format|
-                format.json { render json: @decklist }
+        @decklist = Decklist.find(params[:id])
+
+        if @decklist.user.id == current_user.id
+            if @decklist.update(decklist_params)
+                flash[:success] = "Your decklist has been successfully updated!"
+                respond_to do |format|
+                    format.json { render json: @decklist }
+                end
+            else
+                flash[:error] = @decklist.errors.full_messages.join(", ")
+                respond_to do |format|
+                    format.json { render json: "Test" }
+                end
             end
         else
-            flash[:error] = @decklist.errors.full_messages.join(", ")
-            respond_to do |format|
-                format.json { render json: "Test" }
+            if @decklist.update(tag_list: params[:decklist][:tag_list])
+                flash[:success] = "The decklist tags have been successfully updated!"
+                redirect_to decklist_path(@decklist)     
+            else
+                flash[:error] = @decklist.errors.full_messages.join(", ")
+                respond_to do |format|
+                    format.json { render json: "Test" }
+                end
             end
-        end
+        end        
     end
 
     def new
@@ -86,6 +99,6 @@ class DecklistsController < ApplicationController
             decks << Deck.new({name: v["name"], cards: cards })
         end
 
-        {name: name, description: description, decks: decks}
+        {name: name, description: description, decks: decks, tag_list: params[:tag_list]}
     end
 end

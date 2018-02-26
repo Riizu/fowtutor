@@ -13,13 +13,31 @@
 
     <div class="row">
         <div class="col-md-4">
-            <hr>
-            <h4>Decklists</h4>
-            <hr>
+            <div class="row">
+                <div class="col">
+                    <hr>
+                    <h4>Favorite Decklists</h4>
+                        <% @user.favorite_decklists.each do |decklist| %>
+                            <div><%= link_to(decklist.name, decklist_path(decklist)) %></div>
+                        <% end %>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <hr>
+                    <h4>Decklists</h4>
+                    
+                    <% @decklists.each do |decklist| %>
+                        <div><%= link_to(decklist.name, decklist_path(decklist)) %></div>
+                    <% end %>
+                    <hr>
+                </div>
+            </div>
+
+
             
-            <% @decklists.each do |decklist| %>
-                <div><%= link_to(decklist.name, decklist_path(decklist)) %></div>
-            <% end %>
         </div>
 
         <div class="col-md-8">

@@ -2,10 +2,11 @@ class CardsDatatable < ApplicationDatatable
     private
 
     def data
-        # byebug
         cards.map do |card|
             [].tap do |column|
                 if params["source"] == "mini"
+                    column << card.code
+
                     column << ""\
                     '<select class="form-control" id="num-cards">'\
                         '<option value=0>0</option>'\
@@ -18,8 +19,7 @@ class CardsDatatable < ApplicationDatatable
                     column << card.code
                 end
                 
-                column << card.name
-
+                column << link_to(card.name, "/cards/#{card.id}")
                 if params["source"] == "mini"
                     column << ""\
                     '<div class="btn-group btn-group-sm" role="group">'\
