@@ -11,7 +11,9 @@ class DecklistsController < ApplicationController
         @decklist = Decklist.find(params[:id])
         @ruler_deck = @decklist.decks.find_by(name: "Ruler")
         @decks = @decklist.decks.where.not(name: "Ruler").order(:name)
-        @cards_needed = @decklist.cards_needed_to_build(current_user.collections)
+        if current_user
+            @cards_needed = @decklist.cards_needed_to_build(current_user.collections)
+        end
     end
 
     def edit

@@ -18,10 +18,12 @@
                         <td><%= link_to(decklist.name, decklist_path(decklist)) %></td>
                         <td><%= link_to(decklist.user.username, user_path(decklist.user)) %></td>
                         <td><%= decklist.created_at %></td>
-                        <% unless current_user.favorite_decklists.exists?(id: decklist.id) %>
-                            <td><%= link_to 'Add to favorites', favorite_decklists_path(decklist_id: decklist.id), method: :post %></td>
-                        <% else %>
-                            <td><%= link_to 'Remove from favorites', favorite_decklist_path(decklist), method: :delete %></td>
+                        <% if current_user %>
+                            <% unless current_user.favorite_decklists.exists?(id: decklist.id) %>
+                                <td><%= link_to 'Add to favorites', favorite_decklists_path(decklist_id: decklist.id), method: :post %></td>
+                            <% else %>
+                                <td><%= link_to 'Remove from favorites', favorite_decklist_path(decklist), method: :delete %></td>
+                            <% end %>
                         <% end %>
                     </tr>
                 <% end %>
