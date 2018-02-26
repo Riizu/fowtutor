@@ -25,6 +25,14 @@
                 <% end %>
             </div>
         <% end %>
+
+        <div>
+            <% unless current_user.favorite_decklists.exists?(id: @decklist.id) %>
+                <%= link_to 'Add to favorites', favorite_decklists_path(decklist_id: @decklist.id), method: :post %>
+            <% else %>
+                <%= link_to 'Remove from favorites', favorite_decklist_path(@decklist), method: :delete %>
+            <% end %>
+        </div>
     </div>
     
     

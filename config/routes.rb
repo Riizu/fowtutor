@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :favorite_decklists, only: [:create, :destroy]
+
   namespace :cards do
     resources :search, only: [:create]
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180226181058) do
+ActiveRecord::Schema.define(version: 20180226193459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,16 @@ ActiveRecord::Schema.define(version: 20180226181058) do
     t.index ["decklist_id"], name: "index_decks_on_decklist_id"
   end
 
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "favorited_type"
+    t.bigint "favorited_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["favorited_type", "favorited_id"], name: "index_favorites_on_favorited_type_and_favorited_id"
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
@@ -136,4 +146,5 @@ ActiveRecord::Schema.define(version: 20180226181058) do
   add_foreign_key "collections", "users"
   add_foreign_key "decklists", "users"
   add_foreign_key "decks", "decklists"
+  add_foreign_key "favorites", "users"
 end

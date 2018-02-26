@@ -4,7 +4,7 @@ class DecklistsController < ApplicationController
     respond_to :html, :xml, :json
 
     def index
-        @decklists = Decklist.all
+        @decklists = Decklist.page(params[:page])
     end
 
     def show

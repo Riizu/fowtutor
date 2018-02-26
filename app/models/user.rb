@@ -16,6 +16,8 @@ class User < ApplicationRecord
   has_many :comments, as: :commentable
   has_many :decklists
   has_many :collections
+  has_many :favorites
+  has_many :favorite_decklists, through: :favorites, source: :favorited, source_type: 'Decklist'
   
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
