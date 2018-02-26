@@ -3,8 +3,6 @@
         <div class="col-md-10">
             <h2><%= @card.name %>(<%= @card.code %>)</h2>
         </div>
-        <div class="col-md-2">
-        </div>
     </div>
 
     <div class="row stats">
@@ -33,7 +31,7 @@
             <div>
                 <h4>Rarity</h4>
                 <%= @card.rarity %>
-            </div>
+            </div>    
         </div>
 
         <div class="col-md-3">
@@ -58,21 +56,17 @@
             </div>
         </div>
     </div>
-    
-    <div class="row">
-        <div class="col">
-            <h4>Tags</h4>
-            <% if @card.tag_list.length > 0 %>
-                <% @card.tag_list.each do |t| %>
-                    <%= link_to t, card_tag_path(t) %>
-                    
-                <% end %>
-            <% else %>
-                No Tags Exist!
-            <% end %>
 
-            <%= form_tag(edit_card_path(@card), method: "GET") do %>
-                <div><%= submit_tag 'Add Tags', class: "btn btn-sm btn-primary" %></div>
+     <div class="row">
+        <div class="col">
+            <h4>Update Tags</h4>
+            <%= form_for @card do |f| %>
+                <div class="form-group">
+                    <%= f.label :tag_list, 'Tags (separated by commas)' %><br/>
+                    <%= f.text_field :tag_list %>
+                </div>
+
+                <%= f.submit class: "btn btn-primary", value: "Update Tags" %> 
             <% end %>
         </div>
     </div>
@@ -90,6 +84,4 @@
             </div>
         </div>
     </div>
-    
-    <%= render "comments/comments", commentable: @card %>
 </div>

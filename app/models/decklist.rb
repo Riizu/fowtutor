@@ -1,4 +1,6 @@
 class Decklist < ApplicationRecord
+    acts_as_taggable
+
     belongs_to :user
     has_many :decks
     has_many :comments, as: :commentable
@@ -40,11 +42,16 @@ class Decklist < ApplicationRecord
         decks.inject([]) { |sum, n| sum + n.cards }
     end
 
-    def group_by_count(card_set)
+    def group_by_count(card_set, downcase = true)
         grouped_cards = {}
 
         card_set.each do |card|
-            name = card.name.downcase
+            if downcase
+                name = card.name.downcase
+            else
+                name = card.name
+            end
+
             if grouped_cards[name] == nil
                 grouped_cards[name] = [0,[]]
             end

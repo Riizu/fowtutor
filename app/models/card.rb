@@ -1,4 +1,6 @@
 class Card < ApplicationRecord
+    acts_as_taggable
+
     has_many :cards_costs
     has_many :costs, through: :cards_costs
     has_many :cards_decks

@@ -1,18 +1,40 @@
 <div class="container">
-    <h2><%= @decklist.name %></h2>
-    <h4>Created on: <%= @decklist.created_at %></h4>
-    <h4>Cards Needed: 
-        
-    <% if @cards_needed.length > 0 %>
-        </h4>
-        <ul>
-            <% @cards_needed.each do |card, amount| %>
-                <li>(<%= amount %>) <%= link_to(card.name, card_path(card)) %></li>
+    <div class="row">
+        <div class="col-md-10">
+            <h2><%= @decklist.name %></h2>
+            <h4>Created on: <%= @decklist.created_at %></h4>
+            <h4>Cards Needed: 
+                
+            <% if @cards_needed.length > 0 %>
+                </h4>
+                <ul>
+                    <% @cards_needed.each do |card, amount| %>
+                        <li>(<%= amount %>) <%= link_to(card.name, card_path(card)) %></li>
+                    <% end %>
+                </ul>
+            <% else %>
+                None!</h4>
             <% end %>
-        </ul>
-    <% else %>
-        None!</h4>
-    <% end %>
+        </div>
+
+
+        <% if current_user.id == @decklist.user.id %>
+            <div class="col-md-2">
+                <%= form_tag(edit_decklist_path(@decklist), method: "GET") do %>
+                    <div><%= submit_tag 'EDIT', class: "btn btn-sm btn-primary btn-block" %></div>
+                <% end %>
+            </div>
+        <% end %>
+
+        <div>
+            <% unless current_user.favorite_decklists.exists?(id: @decklist.id) %>
+                <%= link_to 'Add to favorites', favorite_decklists_path(decklist_id: @decklist.id), method: :post %>
+            <% else %>
+                <%= link_to 'Remove from favorites', favorite_decklist_path(@decklist), method: :delete %>
+            <% end %>
+        </div>
+    </div>
+    
     
     <div class="row">
         <div class="col-md-12">
@@ -65,6 +87,26 @@
             <%= @decklist.user.username %>
             <hr>
             <%= @decklist.description %>
+
+            <div class="row">
+                <div class="col">
+                    
+                    <hr>
+                    <h4>Tags</h4>
+                    <% if @decklist.tag_list.length > 0 %>
+                        <% @decklist.tag_list.each do |t| %>
+                            <%= link_to t, card_tag_path(t) %>
+                            
+                        <% end %>
+                    <% else %>
+                        No Tags Exist!
+                    <% end %>
+
+                    <%= form_tag(edit_decklist_path(@decklist), method: "GET") do %>
+                        <div><%= submit_tag 'Add Tags', class: "btn btn-sm btn-primary" %></div>
+                    <% end %>
+                </div>
+            </div>
         </div>
     </div>
 
