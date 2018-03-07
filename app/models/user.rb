@@ -18,6 +18,8 @@ class User < ApplicationRecord
   has_many :collections
   has_many :favorites
   has_many :favorite_decklists, through: :favorites, source: :favorited, source_type: 'Decklist'
+  has_many :hearts, dependent: :destroy
+  has_many :liked_decklists, through: :hearts, source: :decklist
   
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
@@ -32,5 +34,18 @@ class User < ApplicationRecord
     if User.where(email: username).exists?
       errors.add(:username, :invalid)
     end
+  end
+
+  def heart!(decklist)
+    self.hearts.create!(decklist_id: decklist.id)
+  end
+
+  def unheart!(decklist)
+    heart = self.hearts.find_by_decklist_id(decklist.id)
+    heart.destroy!
+  end
+
+  def heart?(decklist)
+    self.hearts.find_by_decklist_id(decklist.id)
   end
 end
