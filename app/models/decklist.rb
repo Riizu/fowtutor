@@ -4,6 +4,8 @@ class Decklist < ApplicationRecord
     belongs_to :user
     has_many :decks
     has_many :comments, as: :commentable
+    has_many :hearts, dependent: :destroy
+    has_many :user_likes, through: :hearts, source: :user
 
     validates :name, presence: true
     validates :name, uniqueness: true

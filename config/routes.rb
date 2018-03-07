@@ -22,6 +22,9 @@ Rails.application.routes.draw do
 
   resources :favorite_decklists, only: [:create, :destroy]
 
+  match 'heart', to: 'hearts#heart', via: :post
+  match 'unheart', to: 'hearts#unheart', via: :delete
+
   namespace :cards do
     resources :search, only: [:create]
   end

@@ -13,6 +13,7 @@
                 <th scope="col">Author</th>
                 <th scope="col">Created At</th>
                 <th></th>
+                <th></th>
                 <% @decklists.each do |decklist| %>
                     <tr>
                         <td><%= link_to(decklist.name, decklist_path(decklist)) %></td>
@@ -24,6 +25,8 @@
                             <% else %>
                                 <td><%= link_to 'Remove from favorites', favorite_decklist_path(decklist), method: :delete %></td>
                             <% end %>
+                            
+                            <td id="<%= dom_id(decklist) %>"><%= render partial: "hearts/button", locals: { decklist: decklist } %></td>
                         <% end %>
                     </tr>
                 <% end %>

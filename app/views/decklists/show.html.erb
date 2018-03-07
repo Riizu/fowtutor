@@ -34,6 +34,9 @@
                 <% end %>
             <% end %>
         </div>
+
+        <div id="<%= dom_id(@decklist) %>"><%= render partial: "hearts/button", locals: { decklist: @decklist } %></div>
+        
     </div>
     
     
