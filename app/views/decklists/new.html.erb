@@ -1,29 +1,27 @@
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h2>Create a New Decklist</h2>
-        </div>
+<div class="row">
+    <div class="col">
+        <h2>Create a New Decklist</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <hr>
+            <h4>Decks</h4>
+        <hr>
+
+        <%= render "decklists/deck_div", deck_name: "Ruler", cards: nil %>
+
+        <%= render "decklists/deck_div", deck_name: "Main", cards: nil %>
+
+        <%= render "decklists/deck_div", deck_name: "Stone", cards: nil %>
+
+        <%= render "decklists/deck_div", deck_name: "Side", cards: nil %>
+
+        <%= render "decklists/form", decklist: @decklist, value: "Create Decklist" %>
     </div>
 
-    <div class="row">
-        <div class="col-md-5">
-            <hr>
-                <h4>Decks</h4>
-            <hr>
-
-            <%= render "decklists/deck_div", deck_name: "Ruler", cards: nil %>
-
-            <%= render "decklists/deck_div", deck_name: "Main", cards: nil %>
-
-            <%= render "decklists/deck_div", deck_name: "Stone", cards: nil %>
-
-            <%= render "decklists/deck_div", deck_name: "Side", cards: nil %>
-
-            <%= render "decklists/form", decklist: @decklist, value: "Create Decklist" %>
-        </div>
-
-        <div class="col-md-7">
-            <%= render "cards/mini_list" %>
-        </div>
+    <div class="col-md-7">
+        <%= render "cards/mini_list" %>
     </div>
 </div>

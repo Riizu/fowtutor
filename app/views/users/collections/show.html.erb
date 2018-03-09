@@ -1,59 +1,57 @@
-<div class="container">
+<div class="row">
+    <div class="col-md-10">
+        <h4>Collection: <%= @collection.name %></h4>
+    </div>
+    <div class="col-md-2">
+        <%= form_tag(edit_user_collection_path(current_user, @collection), method: "GET") do %>
+            <div><%= submit_tag 'Edit', class: "btn btn-sm btn-primary btn-block" %></div>
+        <% end %>
+    </div>
+</div>
+
+<% if @remaining_cards %>
     <div class="row">
-        <div class="col-md-10">
-            <h4>Collection: <%= @collection.name %></h4>
-        </div>
-        <div class="col-md-2">
-            <%= form_tag(edit_user_collection_path(current_user, @collection), method: "GET") do %>
-                <div><%= submit_tag 'Edit', class: "btn btn-sm btn-primary btn-block" %></div>
-            <% end %>
+        <div class="col">
+            <h4>The Following Cards could not be found:</h4>
         </div>
     </div>
 
-    <% if @remaining_cards %>
-        <div class="row">
-            <div class="col">
-                <h4>The Following Cards could not be found:</h4>
-            </div>
-        </div>
 
-
-        <div class="row">
-            <div class="col">
-                <ul>
-                    <% @remaining_cards.each do |card| %>
-                        <li><%= card.capitalize %></li>
-                    <% end %>
-                </ul>
-            </div>
-        </div>
-    <% end %>
-    
     <div class="row">
         <div class="col">
-            <%= content_tag :table, role: :datatable, data: { url: user_collection_path(current_user, @collection, format: :json)} do %>
-                <thead>
-                    <tr>
-                        <th>Amount</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Attribute</th>
-                        <th>Type</th>
-                        <th>Subtype</th>
-                        <th></th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                </tbody>
-            <% end %>
+            <ul>
+                <% @remaining_cards.each do |card| %>
+                    <li><%= card.capitalize %></li>
+                <% end %>
+            </ul>
         </div>
     </div>
+<% end %>
 
-    <div class="row">
-        <div class="col">
-            <h4>Add New Cards</h4>
-            <%= render "users/collections/add_form", collection: @collection %>
-        </div>
+<div class="row">
+    <div class="col">
+        <%= content_tag :table, role: :datatable, data: { url: user_collection_path(current_user, @collection, format: :json)} do %>
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Attribute</th>
+                    <th>Type</th>
+                    <th>Subtype</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+            </tbody>
+        <% end %>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <h4>Add New Cards</h4>
+        <%= render "users/collections/add_form", collection: @collection %>
     </div>
 </div>
