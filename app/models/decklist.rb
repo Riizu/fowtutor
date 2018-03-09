@@ -6,6 +6,7 @@ class Decklist < ApplicationRecord
     has_many :comments, as: :commentable
     has_many :hearts, dependent: :destroy
     has_many :user_likes, through: :hearts, source: :user
+    has_many :favorites, as: :favorited
 
     validates :name, presence: true
     validates :name, uniqueness: true
@@ -106,5 +107,37 @@ class Decklist < ApplicationRecord
         end
 
         grouped_cards
+    end
+
+    def self.sort_by(sort_type, user=nil, tag_name=nil)
+        case sort_type
+        when "recent"
+            order(created_at: :desc)
+        when "popular"
+            popular
+        when "tag"
+            tagged_with(tag_name)
+        when "most_liked"
+            left_joins(:hearts).group(:id).order('COUNT(hearts.id) DESC')
+        when "most_favorited"
+            left_joins(:favorites).group(:id).order('COUNT(favorites.id) DESC')
+        when "favorites"
+            joins(:favorites).where(favorites: { user_id: 1 })
+        when "owned"
+            where(user: user)
+        else
+            popular
+        end
+    end
+
+    def self.popular
+        points = '(COUNT(hearts.*) + (COUNT(favorites.*) * 2) + (COUNT(comments.*) * 0.5))'
+        popularity = "(((" + points + ") / POW(((EXTRACT(EPOCH FROM (now()-decklists.created_at)) / 3600)::integer + 2), 1.5))) AS popularity"
+
+        Decklist.select('decklists.*', popularity)
+        .left_outer_joins(:hearts).left_outer_joins(:favorites)
+        .left_outer_joins(:comments)
+        .group("decklists.id")
+        .order('popularity DESC')
     end
 end

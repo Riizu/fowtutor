@@ -4,7 +4,7 @@ class DecklistsController < ApplicationController
     respond_to :html, :xml, :json
 
     def index
-        @decklists = Decklist.page(params[:page])
+        @decklists = Decklist.sort_by(params[:sort].to_s, current_user, params[:tag_name]).page(params[:page])
     end
 
     def show
