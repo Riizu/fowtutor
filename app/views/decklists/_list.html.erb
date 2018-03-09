@@ -1,29 +1,37 @@
-<table class="table table-striped">
-    <th scope="col">Name</th>
-    <th scope="col">Author</th>
-    <th scope="col">Created At</th>
-    <th scope="col">Hearts</th>
-    <th scope="col">Favorites</th>
-    <th scope="col">Comments</th>
-    <th></th>
-    <th></th>
-    <% decklists.each do |decklist| %>
-        <tr>
-            <td><%= link_to(decklist.name, decklist_path(decklist)) %></td>
-            <td><%= link_to(decklist.user.username, user_path(decklist.user)) %></td>
-            <td><%= decklist.created_at %></td>
-            <td><%= decklist.hearts.length %></td>
-            <td><%= decklist.favorites.length %></td>
-            <td><%= decklist.comments.length %></td>
-            <% if current_user %>
-                <% unless current_user.favorite_decklists.exists?(id: decklist.id) %>
-                    <td><%= link_to 'Add to favorites', favorite_decklists_path(decklist_id: decklist.id), method: :post %></td>
-                <% else %>
-                    <td><%= link_to 'Remove from favorites', favorite_decklist_path(decklist), method: :delete %></td>
-                <% end %>
+<% decklists.each do |decklist| %>
+    <div class="deck-card">
+        <div class="row deck-info">
+            <div class="col-md-12">
+                <div class="statistics small pull-right">
+                    <% if current_user %>
+                        <div id="<%= dom_id(decklist) %>"><%= render partial: "hearts/button", locals: { decklist: decklist } %></div>
+
+                        <% unless current_user.favorite_decklists.exists?(id: decklist.id) %>
+                            <%= link_to decklist.favorites.length, favorite_decklists_path(decklist_id: decklist.id), method: :post %>
+                        <% else %>
+                            <%= link_to decklist.favorites.length, favorite_decklist_path(decklist), method: :delete %>
+                        <% end %>
+                    <% else %>
+                        <i class='fa fa-heart'></i> <%= decklist.hearts.count %>
+                        <i class='fa fa-star'></i> <%= decklist.favorites.count %>
+                        <i class='fa fa-comment'></i> <%= decklist.comments.count %>
+                    <% end %>
+                </div>
                 
-                <td id="<%= dom_id(decklist) %>"><%= render partial: "hearts/button", locals: { decklist: decklist } %></td>
-            <% end %>
-        </tr>
-    <% end %>
-</table>
+                <div class="thumbnail pull-left">
+                    <a href="https://placeholder.com"><img src="http://via.placeholder.com/140x80"></a>
+                </div>
+
+                <div class="deck-name text-truncate">
+                    <h4><%= link_to(decklist.name, decklist_path(decklist)) %></h4>
+                </div>
+            
+                <div class="author small">
+                    <span>by <%= link_to decklist.user.username, user_path(decklist.user) %> - <%= time_ago_in_words(decklist.created_at) %> ago</span>
+                </div>
+            </div>
+        </div>
+    </div>
+<% end %>
+
+

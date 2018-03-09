@@ -1,16 +1,10 @@
 <div class="row">
-    <div class="col-md-7"><h2>Decklists</h2></div>
-    <div class="col-md-5">
-        <%= paginate @decklists %>
-    </div>
-</div>
-
-<div class="row">
     <div class="col-md-2">
         <%= render "decklists/presorts" %>
     </div>
     
     <div class="col-md-10">
+        <%= paginate @decklists %>
         <%= render "decklists/list", decklists: @decklists %>
     </div>
 </div>

@@ -1,14 +1,12 @@
-<div class="row">
-    <div class="col">
-        <div><%= link_to "Recent", decklists_path(sort: :recent) %></div>
-        <div><%= link_to "Most Popular", decklists_path(sort: :popular)  %></div>
-        <div><%= link_to "Tournaments", decklists_path(sort: :tag, tag_name: "tournament")  %></div>
-        <div><%= link_to "Most Liked", decklists_path(sort: :most_liked)  %></div>
-        <div><%= link_to "Most Favorited", decklists_path(sort: :most_favorited)  %></div>
-        
-        <% if current_user %>
-            <div><%= link_to "My Favorites", decklists_path(sort: :favorites)  %></div>
-            <div><%= link_to "My decklists", decklists_path(sort: :owned)  %></div>
-        <% end %>
-    </div>
-</div>
+<ul class="nav nav-pills nav-stacked">
+    <li class="nav-item"><%= link_to "Recent", decklists_path(sort: :recent), class: "nav-link" %></li>
+    <li class="nav-item"><%= link_to "Most Popular", decklists_path(sort: :popular), class: "nav-link"  %></li>
+    <li class="nav-item"><%= link_to "Tournaments", decklists_path(sort: :tag, tag_name: "tournament"), class: "nav-link"  %></li>
+    <li class="nav-item"><%= link_to "Most Liked", decklists_path(sort: :most_liked), class: "nav-link"  %></li>
+    <li class="nav-item"><%= link_to "Most Favorited", decklists_path(sort: :most_favorited), class: "nav-link"  %></li>
+    
+    <% if current_user %>
+        <li class="nav-item"><%= link_to "My Favorites", decklists_path(sort: :favorites), class: "nav-link"  %></li>
+        <li class="nav-item"><%= link_to "My decklists", decklists_path(sort: :owned), class: "nav-link"  %></li>
+    <% end %>
+</ul>
