@@ -12,6 +12,14 @@ class Decklist < ApplicationRecord
     validates :name, uniqueness: true
     validates :description, presence: true
 
+    def ruler
+        ruler = cards.find { |card| card.card_type.downcase == "ruler" }
+    end
+
+    def j_ruler
+        j_ruler = cards.find { |card| card.card_type.downcase == "j-ruler" }
+    end
+
     def cards_needed_to_build(collections)
         decklist_cards_gbc = group_by_count(cards)    
         matching_collection_cards_gbc = group_collections_by_count(collections, decklist_cards_gbc)

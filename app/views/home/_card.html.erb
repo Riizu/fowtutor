@@ -1,0 +1,37 @@
+<div class="deck-card">
+    <div class="deck-title text-nowrap">
+        <h4><%= decklist.name %></h4>
+    </div>
+
+    <div class="row deck-info">
+        <div class="col-md-12">
+            <div class="statistics small pull-right">
+                <i class='fa fa-heart'></i> <%= decklist.hearts.count %>
+                <i class='fa fa-star'></i> <%= decklist.favorites.count %>
+                <i class='fa fa-comment'></i> <%= decklist.comments.count %>
+            </div>
+            
+            <div class="thumbnail pull-left">
+                <a href="https://placeholder.com"><img src="http://via.placeholder.com/140x80"></a>
+            </div>
+
+            <div class="ruler-names text-truncate">
+                <% if decklist.j_ruler %>
+                    <h5><%= decklist.j_ruler.name %></h5>
+                <% else %>
+                    <h5>No J-Ruler Found</h5>
+                <% end %>
+
+                <% if decklist.ruler %>
+                    <%= decklist.ruler.name %>
+                <% else %>
+                    No Ruler Found
+                <% end %>
+            </div>
+        
+            <div class="author small pull-right">
+                <span>by <%= decklist.user.username %> - <%= time_ago_in_words(decklist.created_at) %> ago</span>
+            </div>
+        </div>
+    </div>
+</div>

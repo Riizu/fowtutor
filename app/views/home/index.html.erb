@@ -1,41 +1,10 @@
 <%= render "home/header" %>
 
-<div class="row">
-    <div class="col">
-        <hr>
-        <h4>Most Recent Decks</h4>
-        <hr>
-        <% @five_most_recent_decks.each do |deck| %>
-            <div class="row">
-                <div class="col"><%= link_to(deck.name, decklist_path(deck)) %></div>
-                <div class="col"><%= link_to(deck.user.username, user_path(deck.user)) %></div>
-            </div>
-        <% end %>
-        
-    </div>
-
-    <div class="col">
-        <hr>
-        <h4>Most Viewed Decks</h4>
-        <hr>
-        <% @five_most_viewed_decks.each do |deck| %>
-            <div class="row">
-                <div class="col"><%= link_to(deck.name, decklist_path(deck)) %></div>
-                <div class="col"><%= link_to(deck.user.username, user_path(deck.user)) %></div>
-            </div>
-        <% end %>
-    </div>
-
-    <div class="col">
-        <hr>
-        <h4>Top Decks</h4>
-        <hr>
-        <% @five_top_decks.each do |deck| %>
-            <div class="row">
-                <div class="col"><%= link_to(deck.name, decklist_path(deck)) %></div>
-                <div class="col"><%= link_to(deck.user.username, user_path(deck.user)) %></div>
-            </div>
-        <% end %>
-    </div>
+<div class="row">    
+    <% @decklists.each_with_index do |decklist, i| %>
+        <div class="col-md-6">
+            <%= render "home/card", decklist: decklist %>
+        </div>
+    <% end %>
 </div>
 
