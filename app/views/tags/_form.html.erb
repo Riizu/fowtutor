@@ -1,0 +1,9 @@
+<h4>Update Tags</h4>
+<%= form_for target do |f| %>
+    <div class="form-group">
+        <%= f.label :tag_list, 'Tags (separated by commas)' %><br/>
+        <%= f.text_field :tag_list %>
+    </div>
+
+    <%= f.submit class: "btn btn-primary", value: "Update Tags" %> 
+<% end %>

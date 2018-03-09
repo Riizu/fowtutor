@@ -45,6 +45,15 @@ class Decklist < ApplicationRecord
         decks.inject([]) { |sum, n| sum + n.cards }
     end
 
+    def cards_by_deck
+        cards = {}
+        cards[:ruler] = group_by_count(decks.find_by("lower(name) like ?", "%ruler%").cards, false)
+        cards[:main] = group_by_count(decks.find_by("lower(name) like ?", "%main%").cards, false)
+        cards[:stone] = group_by_count(decks.find_by("lower(name) like ?", "%stone%").cards, false)
+        cards[:side] = group_by_count(decks.find_by("lower(name) like ?", "%side%").cards, false)
+        cards
+    end
+
     def group_by_count(card_set, downcase = true)
         grouped_cards = {}
 
