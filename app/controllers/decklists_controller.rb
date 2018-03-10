@@ -1,5 +1,5 @@
 class DecklistsController < ApplicationController
-    before_action :authenticate_user!, only: [:edit, :update, :create]
+    before_action :authenticate_user!, only: [:edit, :update, :create, :new]
 
     respond_to :html, :xml, :json
 
@@ -50,13 +50,8 @@ class DecklistsController < ApplicationController
     end
 
     def new
-        if current_user
-            @decklist = Decklist.new
-            @cards = Card.last(20)
-        else
-            flash[:warning] = "You must be logged in to create a decklist."
-            redirect_to new_user_sessions_path
-        end
+        @decklist = Decklist.new
+        @cards = Card.last(20)        
     end
 
     def create
