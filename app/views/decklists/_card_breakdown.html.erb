@@ -1,33 +1,71 @@
-<div class="col-md-8">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <% if decklist.decks.length != 0 %>
-                    <% @decks.each_with_index do |deck, i| %>
-                        <% if i % 3 == 0 %>
-                            </div>
-                            <div class="row">
+<div class="row">
+    <div class="col-md-12">
+        <% if decklist.decks.length != 0 %>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <% @decks.each do |deck| %>
+                    <% deck_name = deck.name.downcase.gsub(" ", "") %>
+
+                    <li class="nav-item">
+                        <% tab_name = deck.name + "(" + deck.cards.count.to_s + ")" %>
+                        <% class_tags = "nav-link" %>
+
+                        <% if deck.name.downcase.include?("main")%>
+                            <% class_tags = class_tags + " active" %>
                         <% end %>
-                        <div class="col-md-6" %>
-                            <div>
-                                <%= deck.name %>(<%= deck.cards.count %>)
-                                <hr>
-                            </div>
-                            <% deck.sort_by_card_type.each do |card_type, hash_data| %>
-                                <div>
-                                    <%= card_type %> (<%= hash_data["count"] %>)
-                                    
-                                    <% hash_data["cards"].each do |card, number| %>
-                                        <div>
-                                            <%= link_to("(#{number}) " + card.name, card_path(card)) %>
-                                        </div>
-                                    <% end %>
-                                </div>
-                            <% end %>
-                        </div>
+
+                        <a class="<%= class_tags %>" id="<%= deck_name + "-tab"%>" data-toggle="tab" href="<%= "#" + deck_name %>" role="tab"><%= tab_name %></a>
+                    </li>
+                <% end %>
+
+                <% if cards_needed %>
+                <li class="nav-item">
+                    <a class="nav-link" id="needed-tab" data-toggle="tab" href= "#needed" role="tab">Cards Needed</a>
+                </li>
+                <% end %>
+            </ul>    
+
+            <div class="tab-content" id="myTabContent">
+                <% @decks.each do |deck| %>
+                    <% deck_name = deck.name.downcase.gsub(" ", "") %>
+                    <% class_tags = "tab-pane fade"%>
+
+                    <% if deck.name.downcase.include?("main") %>
+                        <% class_tags = class_tags + " show active" %>
                     <% end %>
+
+                    <div class="<%= class_tags %>" id="<%= deck_name %>" role="tabpanel">
+                        <div class="row">              
+                        <% deck.sort_by_card_type.each do |card_type, hash_data| %>        
+                            <div class="col small">
+                                <%= card_type %> (<%= hash_data["count"] %>)
+                                <hr>
+                                
+                                <% hash_data["cards"].each do |card, number| %>
+                                    <div>
+                                        <%= link_to("(#{number}) " + card.name, card_path(card)) %>
+                                    </div>
+                                <% end %>
+                            </div>
+                            
+                        <% end %>
+                        </div>
+                    </div>
+                <% end %>
+
+                <% if cards_needed %>
+                    <div class="tab-pane fade" id="needed" role="tabpanel">
+                        <div class="row">
+                            <div class="col small">
+                                <% cards_needed.each do |card, amount| %>
+                                    <div> <%= link_to("(" + amount.to_s + ") " + card.name, card_path(card)) %></div>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
                 <% end %>
             </div>
-        </div>
+            
+        <% end %>
     </div>
 </div>
+

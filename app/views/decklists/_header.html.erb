@@ -1,19 +1,13 @@
 <div class="row">
-    <div class="col-md-10">
-        <h2><%= decklist.name %></h2>
-        <h4>Created on: <%= decklist.created_at %></h4>
-        <%= render "decklists/needed_cards.html.erb", cards_needed: cards_needed %>
-    </div>
-
-    <% if current_user && current_user.id == decklist.user.id %>
-        <div class="col-md-2">
-            <%= form_tag(edit_decklist_path(decklist), method: "GET") do %>
-                <div><%= submit_tag 'EDIT', class: "btn btn-sm btn-primary btn-block" %></div>
-            <% end %>
+    <div class="col-md-12">
+        <div class="decklist-name text-center">
+            <h1><%= decklist.name %></h1>
         </div>
-    <% end %>
 
-    <%= render "favorites/decklist_button", decklist: decklist %>
+        <%= render "decklists/social_statistics", decklist: decklist %>
 
-    <div id="<%= dom_id(decklist) %>"><%= render partial: "hearts/button", locals: { decklist: decklist } %></div>
+        <div class="date pull-right">
+            <span><%= time_ago_in_words(decklist.created_at) %> ago</span>
+        </div>
+    </div>
 </div>

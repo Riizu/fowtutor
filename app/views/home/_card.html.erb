@@ -1,15 +1,11 @@
 <div class="deck-card">
     <div class="deck-title text-nowrap">
-        <h4><%= decklist.name %></h4>
+        <h4><%= link_to decklist.name, decklist_path(decklist) %></h4>
     </div>
 
     <div class="row deck-info">
         <div class="col-md-12">
-            <div class="statistics small pull-right">
-                <i class='fa fa-heart'></i> <%= decklist.hearts.count %>
-                <i class='fa fa-star'></i> <%= decklist.favorites.count %>
-                <i class='fa fa-comment'></i> <%= decklist.comments.count %>
-            </div>
+            <%= render "decklists/social_statistics", decklist: decklist %>
             
             <div class="thumbnail pull-left">
                 <a href="https://placeholder.com"><img src="http://via.placeholder.com/140x80"></a>
@@ -17,20 +13,20 @@
 
             <div class="ruler-names text-truncate">
                 <% if decklist.j_ruler %>
-                    <h5><%= decklist.j_ruler.name %></h5>
+                    <h5><%= link_to decklist.j_ruler.name, card_path(decklist.j_ruler) %></h5>
                 <% else %>
-                    <h5>No J-Ruler Found</h5>
+                    <h5><%= link_to "No J-Ruler Found", "#" %></h5>
                 <% end %>
 
                 <% if decklist.ruler %>
-                    <%= decklist.ruler.name %>
+                    <%= link_to decklist.ruler.name, card_path(decklist.ruler) %>
                 <% else %>
-                    No Ruler Found
+                    <%= link_to "No Ruler Found", "#" %>
                 <% end %>
             </div>
         
             <div class="author small pull-right">
-                <span>by <%= decklist.user.username %> - <%= time_ago_in_words(decklist.created_at) %> ago</span>
+                <span>by <%= link_to decklist.user.username, user_path(decklist.user) %> - <%= time_ago_in_words(decklist.created_at) %> ago</span>
             </div>
         </div>
     </div>

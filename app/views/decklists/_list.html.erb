@@ -2,21 +2,7 @@
     <div class="deck-card">
         <div class="row deck-info">
             <div class="col-md-12">
-                <div class="statistics small pull-right">
-                    <% if current_user %>
-                        <div id="<%= dom_id(decklist) %>"><%= render partial: "hearts/button", locals: { decklist: decklist } %></div>
-
-                        <% unless current_user.favorite_decklists.exists?(id: decklist.id) %>
-                            <%= link_to decklist.favorites.length, favorite_decklists_path(decklist_id: decklist.id), method: :post %>
-                        <% else %>
-                            <%= link_to decklist.favorites.length, favorite_decklist_path(decklist), method: :delete %>
-                        <% end %>
-                    <% else %>
-                        <i class='fa fa-heart'></i> <%= decklist.hearts.count %>
-                        <i class='fa fa-star'></i> <%= decklist.favorites.count %>
-                        <i class='fa fa-comment'></i> <%= decklist.comments.count %>
-                    <% end %>
-                </div>
+                <%= render "decklists/social_statistics", decklist: decklist %>
                 
                 <div class="thumbnail pull-left">
                     <a href="https://placeholder.com"><img src="http://via.placeholder.com/140x80"></a>
