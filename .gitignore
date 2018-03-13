@@ -24,3 +24,7 @@ app/assets/images/cards/*
 db/scraper
 db/logs
 db/parsed_cards.txt
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
