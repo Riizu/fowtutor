@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-md-5">
-        <%= render "decklists/deck_display", decklist: @decklist, cards: {} %>
+        <%= render "decklists/deck_display", decklist: @decklist, cards: {}, owned: true %>
 
         <%= render "decklists/form", decklist: @decklist, value: "Create Decklist" %>
     </div>
