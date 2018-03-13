@@ -91,6 +91,17 @@ class DecklistsController < ApplicationController
         end
     end
 
+    def destroy 
+        @decklist = current_user.decklists.find(params[:id])
+        
+        if @decklist
+            @decklist.decks.delete_all
+            @decklist.delete
+        end
+        
+        redirect_to decklists_path
+    end
+
     private
     def taglist_params
         params.require(:decklist).permit(:tag_list)
