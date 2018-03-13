@@ -1,10 +1,10 @@
 class DecklistsController < ApplicationController
-    before_action :authenticate_user!, only: [:edit, :update, :create]
+    before_action :authenticate_user!, only: [:edit, :update, :create, :new]
 
     respond_to :html, :xml, :json
 
     def index
-        @decklists = Decklist.page(params[:page])
+        @decklists = Decklist.sort_by(params[:sort].to_s, current_user, params[:tag_name]).page(params[:page])
     end
 
     def show
@@ -18,10 +18,7 @@ class DecklistsController < ApplicationController
 
     def edit
         @decklist = Decklist.find(params[:id])
-        @ruler_cards = @decklist.group_by_count(@decklist.decks.find_by("lower(name) like ?", "ruler").cards, false)
-        @main_cards = @decklist.group_by_count(@decklist.decks.find_by("lower(name) like ?", "main").cards, false)
-        @stone_cards = @decklist.group_by_count(@decklist.decks.find_by("lower(name) like ?", "stone").cards, false)
-        @side_cards = @decklist.group_by_count(@decklist.decks.find_by("lower(name) like ?", "side").cards, false)
+        @decklist_cards = @decklist.cards_by_deck
     end
 
     def update
@@ -53,13 +50,8 @@ class DecklistsController < ApplicationController
     end
 
     def new
-        if current_user
-            @decklist = Decklist.new
-            @cards = Card.last(20)
-        else
-            flash[:warning] = "You must be logged in to create a decklist."
-            redirect_to new_user_sessions_path
-        end
+        @decklist = Decklist.new
+        @cards = Card.last(20)        
     end
 
     def create

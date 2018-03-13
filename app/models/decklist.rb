@@ -4,10 +4,21 @@ class Decklist < ApplicationRecord
     belongs_to :user
     has_many :decks
     has_many :comments, as: :commentable
+    has_many :hearts, dependent: :destroy
+    has_many :user_likes, through: :hearts, source: :user
+    has_many :favorites, as: :favorited
 
     validates :name, presence: true
     validates :name, uniqueness: true
     validates :description, presence: true
+
+    def ruler
+        ruler = cards.find { |card| card.card_type.downcase == "ruler" }
+    end
+
+    def j_ruler
+        j_ruler = cards.find { |card| card.card_type.downcase == "j-ruler" }
+    end
 
     def cards_needed_to_build(collections)
         decklist_cards_gbc = group_by_count(cards)    
@@ -40,6 +51,15 @@ class Decklist < ApplicationRecord
 
     def cards
         decks.inject([]) { |sum, n| sum + n.cards }
+    end
+
+    def cards_by_deck
+        cards = {}
+        cards[:ruler] = group_by_count(decks.find_by("lower(name) like ?", "%ruler%").cards, false)
+        cards[:main] = group_by_count(decks.find_by("lower(name) like ?", "%main%").cards, false)
+        cards[:stone] = group_by_count(decks.find_by("lower(name) like ?", "%stone%").cards, false)
+        cards[:side] = group_by_count(decks.find_by("lower(name) like ?", "%side%").cards, false)
+        cards
     end
 
     def group_by_count(card_set, downcase = true)
@@ -104,5 +124,37 @@ class Decklist < ApplicationRecord
         end
 
         grouped_cards
+    end
+
+    def self.sort_by(sort_type, user=nil, tag_name=nil)
+        case sort_type
+        when "recent"
+            order(created_at: :desc)
+        when "popular"
+            popular
+        when "tag"
+            tagged_with(tag_name)
+        when "most_liked"
+            left_joins(:hearts).group(:id).order('COUNT(hearts.id) DESC')
+        when "most_favorited"
+            left_joins(:favorites).group(:id).order('COUNT(favorites.id) DESC')
+        when "favorites"
+            joins(:favorites).where(favorites: { user_id: 1 })
+        when "owned"
+            where(user: user)
+        else
+            popular
+        end
+    end
+
+    def self.popular
+        points = '(COUNT(hearts.*) + (COUNT(favorites.*) * 2) + (COUNT(comments.*) * 0.5))'
+        popularity = "(((" + points + ") / POW(((EXTRACT(EPOCH FROM (now()-decklists.created_at)) / 3600)::integer + 2), 1.5))) AS popularity"
+
+        Decklist.select('decklists.*', popularity)
+        .left_outer_joins(:hearts).left_outer_joins(:favorites)
+        .left_outer_joins(:comments)
+        .group("decklists.id")
+        .order('popularity DESC')
     end
 end

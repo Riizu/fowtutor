@@ -1,0 +1,13 @@
+<div class="row decklist-header <%= ("bg-" + decklist.j_ruler.card_attribute.downcase.gsub("/","-") + "-attribute") if decklist.j_ruler  %>">
+    <div class="col-md-12">
+        <div class="decklist-name text-center title">
+            <h1><%= decklist.name %></h1>
+        </div>
+
+        <%= render "decklists/social_statistics", decklist: decklist %>
+
+        <div class="date pull-right">
+            <span><%= time_ago_in_words(decklist.created_at) %> ago</span>
+        </div>
+    </div>
+</div>

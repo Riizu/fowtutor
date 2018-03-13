@@ -4,6 +4,8 @@
     <title>Fowtutor</title>
     <%= csrf_meta_tags %>
 
+    <%= stylesheet_link_tag "https://fonts.googleapis.com/css?family=Amiri:400,400italic,700,700italic|Julius+Sans+One|Open+Sans:400,400italic,700,700italic|Open+Sans+Condensed:300" %>
+
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -11,10 +13,18 @@
   <body>
     <%= render "shared/navbar" %>
 
-    <% flash.each do |name, message| %>
-      <%= content_tag :div, raw(message), id: "flash_#{name}" %>
-    <% end %>
+    <div id="wrapper">
+      <div class="container main">
+        <% flash.each do |name, message| %>
+          <%= content_tag :div, raw(message), id: "flash_#{name}" %>
+        <% end %>
 
-    <%= yield %>
+        
+        <%= yield %>
+        
+      </div>
+    </div>
+
+    <%= render "shared/footer" %>
   </body>
 </html>

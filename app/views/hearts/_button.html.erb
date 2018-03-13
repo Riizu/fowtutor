@@ -1,0 +1,7 @@
+<% if current_user %>
+  <% if current_user.heart?(decklist) %>
+    <%= link_to " " + decklist.hearts.count.to_s, unheart_path(decklist_id: decklist.id), remote: true, method: :delete  %>
+  <% else %>
+    <%= link_to " " + decklist.hearts.count.to_s, heart_path(decklist_id: decklist.id), remote: true, method: :post  %>
+  <% end %>
+<% end %>

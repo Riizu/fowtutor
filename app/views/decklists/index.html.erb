@@ -1,40 +1,17 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-7"><h2>Decklists</h2></div>
-        <div class="col-md-5">
-            <%= paginate @decklists %>
-        </div>
+<div class="row">
+    <div class="col-md-3">
+        <%= render "decklists/presorts" %>
     </div>
-
-    <div class="row">
-        <div class="col">
-            <table class="table table-striped">
-                <th scope="col">Name</th>
-                <th scope="col">Author</th>
-                <th scope="col">Created At</th>
-                <th></th>
-                <% @decklists.each do |decklist| %>
-                    <tr>
-                        <td><%= link_to(decklist.name, decklist_path(decklist)) %></td>
-                        <td><%= link_to(decklist.user.username, user_path(decklist.user)) %></td>
-                        <td><%= decklist.created_at %></td>
-                        <% if current_user %>
-                            <% unless current_user.favorite_decklists.exists?(id: decklist.id) %>
-                                <td><%= link_to 'Add to favorites', favorite_decklists_path(decklist_id: decklist.id), method: :post %></td>
-                            <% else %>
-                                <td><%= link_to 'Remove from favorites', favorite_decklist_path(decklist), method: :delete %></td>
-                            <% end %>
-                        <% end %>
-                    </tr>
-                <% end %>
-            </table>
-        </div>
+    
+    <div class="col-md-9">
+        <%= paginate @decklists %>
+        <%= render "decklists/list", decklists: @decklists %>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-md-7"></div>
-        <div class="col-md-5">
-            <%= paginate @decklists %>
-        </div>
+<div class="row">
+    <div class="col-md-7"></div>
+    <div class="col-md-5">
+        <%= paginate @decklists %>
     </div>
 </div>

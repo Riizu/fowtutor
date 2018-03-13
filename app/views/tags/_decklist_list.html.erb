@@ -1,0 +1,15 @@
+<div>
+    <% if decklist.tag_list.length > 0 %>
+        <% decklist.tag_list.each do |t| %>
+            <%= link_to t, card_tag_path(t) %>
+        <% end %>
+    <% else %>
+        No Tags Exist!
+    <% end %>
+
+    <% if current_user %>
+        <%= form_tag(edit_decklist_path(decklist), method: "GET") do %>
+            <div><%= submit_tag 'Add Tags', class: "btn btn-sm btn-primary" %></div>
+        <% end %>
+    <% end %>
+</div>

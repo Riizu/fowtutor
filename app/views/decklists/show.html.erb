@@ -1,117 +1,64 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-10">
-            <h2><%= @decklist.name %></h2>
-            <h4>Created on: <%= @decklist.created_at %></h4>
-            <h4>Cards Needed: 
-                
-            <% if @cards_needed && @cards_needed.length > 0 %>
-                </h4>
-                <ul>
-                    <% @cards_needed.each do |card, amount| %>
-                        <li>(<%= amount %>) <%= link_to(card.name, card_path(card)) %></li>
-                    <% end %>
-                </ul>
-            <% else %>
-                None!</h4>
-            <% end %>
-        </div>
+<%= render "decklists/header", decklist: @decklist %>
 
-        <% if current_user && current_user.id == @decklist.user.id %>
-            <div class="col-md-2">
-                <%= form_tag(edit_decklist_path(@decklist), method: "GET") do %>
-                    <div><%= submit_tag 'EDIT', class: "btn btn-sm btn-primary btn-block" %></div>
-                <% end %>
+<div class="row main">
+    <div class="col-md-6">
+        <div class="row decklist-stats">
+            <div class="col-md-5">
+                <a href="https://placeholder.com"><img src="http://via.placeholder.com/140x80"></a>
             </div>
-        <% end %>
 
-        <div>
-            <% if current_user %>
-                <% unless current_user.favorite_decklists.exists?(id: @decklist.id) %>
-                    <%= link_to 'Add to favorites', favorite_decklists_path(decklist_id: @decklist.id), method: :post %>
-                <% else %>
-                    <%= link_to 'Remove from favorites', favorite_decklist_path(@decklist), method: :delete %>
-                <% end %>
-            <% end %>
-        </div>
-    </div>
-    
-    
-    <div class="row">
-        <div class="col-md-12">
-            <% if @decklist.decks.length != 0 %>
-                <h4>
-                    <% @ruler_deck.cards.each do |card| %>
-                        <%= link_to(card.name, card_path(card)) %> <br> 
-                    <% end %>
-                </h4>
-            <% end %>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <% if @decklist.decks.length != 0 %>
-                            <% @decks.each_with_index do |deck, i| %>
-                                <% if i % 3 == 0 %>
-                                    </div>
-                                    <div class="row">
-                                <% end %>
-                                <div class="col-md-6" %>
-                                    <div>
-                                        <%= deck.name %>(<%= deck.cards.count %>)
-                                        <hr>
-                                    </div>
-                                    <% deck.sort_by_card_type.each do |card_type, hash_data| %>
-                                        <div>
-                                            <%= card_type %> (<%= hash_data["count"] %>)
-                                            
-                                            <% hash_data["cards"].each do |card, number| %>
-                                                <div>
-                                                    <%= link_to("(#{number}) " + card.name, card_path(card)) %>
-                                                </div>
-                                            <% end %>
-                                        </div>
-                                    <% end %>
-                                </div>
-                            <% end %>
-                        <% end %>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <%= @decklist.user.username %>
-            <hr>
-            <%= @decklist.description %>
-
-            <div class="row">
-                <div class="col">
-                    
-                    <hr>
-                    <h4>Tags</h4>
-                    <% if @decklist.tag_list.length > 0 %>
-                        <% @decklist.tag_list.each do |t| %>
-                            <%= link_to t, card_tag_path(t) %>
-                            
-                        <% end %>
+            <div class="col-md-7">
+                <div class="ruler-names">
+                    <% if @decklist.j_ruler %>
+                        <h5><%= link_to @decklist.j_ruler.name, card_path(@decklist.j_ruler) %></h5>
                     <% else %>
-                        No Tags Exist!
+                        <h5><%= link_to "No J-Ruler Found", "#" %></h5>
                     <% end %>
 
-                    <% if current_user %>
-                        <%= form_tag(edit_decklist_path(@decklist), method: "GET") do %>
-                            <div><%= submit_tag 'Add Tags', class: "btn btn-sm btn-primary" %></div>
-                        <% end %>
+                    <% if @decklist.ruler %>
+                        <%= link_to @decklist.ruler.name, card_path(@decklist.ruler) %>
+                    <% else %>
+                        <%= link_to "No Ruler Found", "#" %>
                     <% end %>
                 </div>
+
+                <div class="decklist-count">
+                    <span><%= @decklist.cards.length %> Cards Total</span>
+                </div>
+
+                <%= render "tags/decklist_list", decklist: @decklist %>
             </div>
         </div>
+
+        <%= render "decklists/card_breakdown", decklist: @decklist, decks: @decks, cards_needed: @cards_needed %>
     </div>
 
-    <%= render "comments/comments", commentable: @decklist %>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-10">
+                <h3><i class='fa fa-user'></i> <%= link_to @decklist.user.username, user_path(@decklist.user) %></h3>
+            </div>
+
+            <% if current_user && current_user.id == @decklist.user.id %>
+                <div class="col-md-2">
+                    <%= form_tag(edit_decklist_path(@decklist), method: "GET") do %>
+                        <div><%= submit_tag 'EDIT', class: "btn btn-sm btn-primary btn-block" %></div>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
+
+        <div class="row">
+            <div class="col" style="padding-bottom: 10px;">
+                <hr>
+                <%= @decklist.description %>
+            </div>
+        </div>
+
+        
+
+        <%= render "comments/comments", commentable: @decklist %>
+    </div>
 </div>
+
+

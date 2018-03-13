@@ -1,0 +1,24 @@
+<table class="table">
+    <% decklists.each do |decklist| %>
+        <tr>
+            <td class="hidden-xs">
+                <img src="http://via.placeholder.com/140x80">
+            </td>
+
+            <td>
+                <article>
+                    <h4>
+                        <%= render "decklists/social_statistics", decklist: decklist %>
+                        <%= link_to(decklist.name, decklist_path(decklist)) %>
+                    </h4>
+                        
+                    </h5>
+                        <span>by <%= link_to decklist.user.username, user_path(decklist.user) %></span> 
+                        <span class="small pull-right"> <%= time_ago_in_words(decklist.created_at) %> ago</span>
+                    </h5>
+                </article>
+            </td>
+        </tr>
+    <% end %>
+</table>
+
