@@ -4,12 +4,5 @@
             <h1 class="text-uppercase site-title">FoW Tutor</h1>
             <h4 class="site-slogan">Your Resource for Force of Will</h4>
         </div>
-
-        <div>
-            <% if !current_user %>
-                <button><%= link_to("Register", new_user_registration_path) %></button>
-                <button><%= link_to("Log In", new_user_session_path) %></button>
-            <% end %> 
-        </div>
     </div>
 </div>
