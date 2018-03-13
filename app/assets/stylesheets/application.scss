@@ -16,3 +16,354 @@
  @import "datatables";
  @import "datatables/dataTables.bootstrap4";
  @import "font-awesome";
+
+ body {
+     background-color: #fcfcfc;
+     color: black;
+ }
+
+ a {
+    color: #2015a0;
+ }
+
+ h4 {
+     font-size: 18px;
+ }
+
+ .main {
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+ }
+
+ div#wrapper {
+    min-height: 100%;
+    padding-bottom: 100px;
+    border-bottom: 10px solid black;
+}
+
+footer {
+    background-color: #95a5a6;
+    padding-top: 20px;    
+}
+
+.site-title {
+    font-family: 'Julius Sans One', sans-serif;
+    font-size: 116px;
+}
+
+.title {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.site-slogan {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 40px;
+}
+
+.banner {
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.thumbnail {
+    margin: 5px 10px 5px 0;
+}
+
+.deck-title {
+    padding: 10px 10px 4px 8px;
+    background-color: grey !important;
+    color: white !important;
+
+    a {
+        color: inherit;
+        text-decoration: none;
+        background-color: transparent;
+    }
+}
+
+.deck-info {
+    padding: 5px 10px 10px 10px;
+}
+
+.decklist-header {
+    padding-bottom: 10px;
+}
+
+.media-heading {
+    font-size: 18px;
+}
+
+.statistics {
+    a {
+        color: black;
+    }
+}
+
+td, th {
+    padding: 0;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 7px;
+    line-height: 1.42857;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
+.color-fire-attribute {
+    a {
+        color: #cc3038 !important;
+    }
+}
+
+.color-wind-attribute {
+    a {
+        color: #107116 !important;
+    }
+}
+
+.color-water-attribute {
+    a {
+        color: #2b80c5 !important;
+    }
+}
+
+.color-light-attribute {
+    a {
+        color: #ffff00 !important;
+    }
+}
+
+.color-darkness-attribute {
+    a {
+        color: #5d5593 !important;
+    }
+}
+
+.color-fire-attribute {
+    color: #cc3038 !important;
+}
+
+.color-wind-fire-attribute {
+    a { 
+        color: linear-gradient(to right, #107116, #cc3038) !important;
+    }
+}
+
+.color-wind-water-attribute {
+    a { 
+        color: linear-gradient(to right, #107116, #2b80c5) !important;
+    }
+}
+
+.color-wind-darkness-attribute {
+    a { 
+        color: linear-gradient(to right, #107116, #5d5593) !important;
+    }
+}
+
+.color-wind-light-attribute {
+    a { 
+        color: linear-gradient(to right, #107116, #ffff00) !important;
+    }
+}
+
+.color-water-fire-attribute {
+    a { 
+        color: linear-gradient(to right, #2b80c5, #cc3038) !important;
+    }
+}
+
+.color-water-light-attribute {
+    a { 
+        color: linear-gradient(to right, #2b80c5, yellow) !important;
+    }
+}
+
+.color-water-wind-attribute {
+    a { 
+        color: linear-gradient(to right, #2b80c5, #107116) !important;
+    }
+}
+
+.color-water-darkness-attribute {
+    a { 
+        color: linear-gradient(to right, #2b80c5, #5d5593) !important;
+    }
+}
+
+.color-fire-light-attribute {
+    a { 
+        color: linear-gradient(to right, #cc3038, #ffff00) !important;
+    }
+}
+
+.color-fire-water-attribute {
+    a { 
+        color: linear-gradient(to right, #cc3038, #2b80c5) !important;
+    }
+}
+
+.color-fire-wind-attribute {
+    a { 
+        color: linear-gradient(to right, #cc3038, #107116) !important;
+    }
+}
+
+.color-fire-darkness-attribute {
+    a { 
+        color: linear-gradient(to right, #cc3038, #5d5593) !important;
+    }
+}
+
+.color-light-fire-attribute {
+    a { 
+        color: linear-gradient(to right, #ffff00, #cc3038) !important;
+    }
+}
+
+.color-light-water-attribute {
+    a { 
+        color: linear-gradient(to right, #ffff00, #2b80c5) !important;
+    }
+}
+
+.color-light-wind-attribute {
+    a { 
+        color: linear-gradient(to right, #ffff00, #107116) !important;
+    }
+}
+
+.color-light-darkness-attribute {
+    a { 
+        color: linear-gradient(to right, #ffff00, #5d5593) !important;
+    }
+}
+
+.color-darkness-fire-attribute {
+    a { 
+        color: linear-gradient(to right, #5d5593, #cc3038) !important;
+    }
+}
+
+.color-darkness-light-attribute {
+    a { 
+        color: linear-gradient(to right, #5d5593, #ffff00) !important;
+    }
+}
+
+.color-darkness-water-attribute {
+    a { 
+        color: linear-gradient(to right, #5d5593, #2b80c5) !important;
+    }
+}
+
+.color-darkness-wind-attribute {
+    a { 
+        color: linear-gradient(to right, #5d5593, #107116) !important;
+    }
+}
+
+
+.bg-wind-attribute {
+    background-color: #107116 !important;
+}
+
+.bg-water-attribute {
+    background-color: #2b80c5 !important;
+}
+
+.bg-fire-attribute {
+    background-color: #cc3038 !important;
+}
+
+.bg-light-attribute {
+    background-color: #ffff00 !important;
+}
+
+.bg-darkness-attribute {
+    background-color: #5d5593 !important;
+}
+
+.bg-wind-fire-attribute {
+    background: linear-gradient(to right, #107116, #cc3038) !important;
+}
+
+.bg-wind-water-attribute {
+    background: linear-gradient(to right, #107116, #2b80c5) !important;
+}
+
+.bg-wind-darkness-attribute {
+    background: linear-gradient(to right, #107116, #5d5593) !important;
+}
+
+.bg-wind-light-attribute {
+    background: linear-gradient(to right, #107116, #ffff00) !important;
+}
+
+.bg-water-fire-attribute {
+    background: linear-gradient(to right, #2b80c5, #cc3038) !important;
+}
+
+.bg-water-light-attribute {
+    background: linear-gradient(to right, #2b80c5, yellow) !important;
+}
+
+.bg-water-wind-attribute {
+    background: linear-gradient(to right, #2b80c5, #107116) !important;
+}
+
+.bg-water-darkness-attribute {
+    background: linear-gradient(to right, #2b80c5, #5d5593) !important;
+}
+
+.bg-fire-light-attribute {
+    background: linear-gradient(to right, #cc3038, #ffff00) !important;
+}
+
+.bg-fire-water-attribute {
+    background: linear-gradient(to right, #cc3038, #2b80c5) !important;
+}
+
+.bg-fire-wind-attribute {
+    background: linear-gradient(to right, #cc3038, #107116) !important;
+}
+
+.bg-fire-darkness-attribute {
+    background: linear-gradient(to right, #cc3038, #5d5593) !important;
+}
+
+.bg-light-fire-attribute {
+    background: linear-gradient(to right, #ffff00, #cc3038) !important;
+}
+
+.bg-light-water-attribute {
+    background: linear-gradient(to right, #ffff00, #2b80c5) !important;
+}
+
+.bg-light-wind-attribute {
+    background: linear-gradient(to right, #ffff00, #107116) !important;
+}
+
+.bg-light-darkness-attribute {
+    background: linear-gradient(to right, #ffff00, #5d5593) !important;
+}
+
+.bg-darkness-fire-attribute {
+    background: linear-gradient(to right, #5d5593, #cc3038) !important;
+}
+
+.bg-darkness-light-attribute {
+    background: linear-gradient(to right, #5d5593, #ffff00) !important;
+}
+
+.bg-darkness-water-attribute {
+    background: linear-gradient(to right, #5d5593, #2b80c5) !important;
+}
+
+.bg-darkness-wind-attribute {
+    background: linear-gradient(to right, #5d5593, #107116) !important;
+}

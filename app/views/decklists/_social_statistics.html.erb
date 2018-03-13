@@ -1,23 +1,25 @@
-<div class="statistics small pull-right">
-    <% if current_user %>
-        <i class='fa fa-heart' id="<%= dom_id(decklist) %>">
-            <%= render partial: "hearts/button", locals: { decklist: decklist } %>
-        </i>
-        
-        <% unless current_user.favorite_decklists.exists?(id: decklist.id) %>
-            <i class='fa fa-star'>
-                <%= link_to decklist.favorites.length, favorite_decklists_path(decklist_id: decklist.id), method: :post %>
+<small class="statistics pull-right">
+    <span>
+        <% if current_user %>
+            <i class='fa fa-heart' id="<%= dom_id(decklist) %>" style="color: red;">
+                <%= render partial: "hearts/button", locals: { decklist: decklist } %>
             </i>
-        <% else %>
-            <i class='fa fa-star'>
-                <%= link_to decklist.favorites.length, favorite_decklist_path(decklist), method: :delete %>
-            </i>
-        <% end %>
+            
+            <% unless current_user.favorite_decklists.exists?(id: decklist.id) %>
+                <i class='fa fa-star' style="color: orange;">
+                    <%= link_to decklist.favorites.length, favorite_decklists_path(decklist_id: decklist.id), method: :post %>
+                </i>
+            <% else %>
+                <i class='fa fa-star' style="color: orange;">
+                    <%= link_to decklist.favorites.length, favorite_decklist_path(decklist), method: :delete %>
+                </i>
+            <% end %>
 
-        <i class='fa fa-comment'></i> <%= link_to decklist.comments.count, decklist_path(decklist) %>
-    <% else %>
-        <i class='fa fa-heart'></i> <%= decklist.hearts.count %>
-        <i class='fa fa-star'><%= decklist.favorites.count %></i>
-        <i class='fa fa-comment'></i> <%= decklist.comments.count %>
-    <% end %>
-</div>
+            <i class='fa fa-comment' style="color: green;"></i> <%= link_to decklist.comments.count, decklist_path(decklist) %>
+        <% else %>
+            <i class='fa fa-heart' style="color: red;"></i> <%= decklist.hearts.count %>
+            <i class='fa fa-star' style="color: orange;"><%= decklist.favorites.count %></i>
+            <i class='fa fa-comment' style="color: green;"></i> <%= decklist.comments.count %>
+        <% end %>
+    </span>
+</small>

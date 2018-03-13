@@ -1,4 +1,4 @@
-<ul class="nav nav-pills nav-stacked">
+<ul class="nav flex-column nav-pills nav-stacked">
     <li class="nav-item"><%= link_to "Recent", decklists_path(sort: :recent), class: "nav-link" %></li>
     <li class="nav-item"><%= link_to "Most Popular", decklists_path(sort: :popular), class: "nav-link"  %></li>
     <li class="nav-item"><%= link_to "Tournaments", decklists_path(sort: :tag, tag_name: "tournament"), class: "nav-link"  %></li>

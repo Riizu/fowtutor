@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row decklist-header <%= ("bg-" + decklist.j_ruler.card_attribute.downcase.gsub("/","-") + "-attribute") if decklist.j_ruler  %>">
     <div class="col-md-12">
-        <div class="decklist-name text-center">
+        <div class="decklist-name text-center title">
             <h1><%= decklist.name %></h1>
         </div>
 

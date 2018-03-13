@@ -1,6 +1,6 @@
 <%= render "decklists/header", decklist: @decklist %>
 
-<div class="row">
+<div class="row main">
     <div class="col-md-6">
         <div class="row decklist-stats">
             <div class="col-md-5">
@@ -36,7 +36,7 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-10">
-                <h3><i class='fa fa-user'></i><%= link_to @decklist.user.username, user_path(@decklist.user) %></h3>
+                <h3><i class='fa fa-user'></i> <%= link_to @decklist.user.username, user_path(@decklist.user) %></h3>
             </div>
 
             <% if current_user && current_user.id == @decklist.user.id %>
@@ -49,7 +49,7 @@
         </div>
 
         <div class="row">
-            <div class="col">
+            <div class="col" style="padding-bottom: 10px;">
                 <hr>
                 <%= @decklist.description %>
             </div>
