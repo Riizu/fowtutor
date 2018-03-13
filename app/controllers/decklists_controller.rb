@@ -5,6 +5,15 @@ class DecklistsController < ApplicationController
 
     def index
         @decklists = Decklist.sort_by(params[:sort].to_s, current_user, params[:tag_name]).page(params[:page])
+        @header = "Most Popular"
+        
+        if params[:sort]
+            @header = params[:sort].capitalize
+        end
+
+        if params[:tag_name]
+            @header = params[:tag_name].capitalize.pluralize
+        end
     end
 
     def show
