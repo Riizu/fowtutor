@@ -2,6 +2,33 @@ $(document).on("click", ".deck-adjust-button", adjustDeck)
 $(document).on("click", ".decklist-remove-card", removeCard)
 $(document).on("click", "#decklist-submit", submitDecklist)
 
+function populateDecklist() {
+    decklist = JSON.parse(localStorage.getItem('decklist'))
+    console.log(decklist)
+    decklist_name =  $('#name')
+    decklist_tags = $('#tag_list')
+    decklist_description = $("#description")
+
+    $(decklist_name).val(decklist.name)
+    $(decklist_tags).val(decklist.tag_list)
+    $(decklist_description).val(decklist.description)
+
+    if (decklist.decks !== null) {
+        decklist.decks.forEach(function(deck) {
+            deck_name = deck.name.toLowerCase() + "-deck"
+            deck_div = $('#' + deck_name)
+    
+            deck.cards.forEach(function(card) {
+                card_name = card.name
+                card_name_sanitized = card_name.replace(/\s+/g, '-').replace(/,/g, '').replace(/'/g, '').replace(/\"/g,'\\"') .toLowerCase();
+                card_div = $("<div></div").appendTo(deck_div)
+                $("<button type='button' class='btn btn-default decklist-remove-card'><i class='fa fa-times'></i></button>").appendTo(card_div)
+                $("<span id=" + card_name_sanitized + ">" + card.num + "x " + card.name + "</span>").appendTo(card_div)
+            })
+        })
+    }    
+}
+
 function adjustDeck(e) {
     card_name = ""
     $(this).parents('td').siblings().each(function() {
@@ -115,6 +142,10 @@ function submitDecklist(e) {
             tag_list: decklist_tags
         }
     }
+    
+    if (submission_target == "POST") {
+        localStorage.setItem("decklist", JSON.stringify(decklist.decklist))
+    }
 
     $.ajax({
         method: submission_target,
@@ -122,6 +153,7 @@ function submitDecklist(e) {
         data: decklist
     })
     .done(function( msg ) {
+        localStorage.setItem("decklist", null)
         window.location.replace("/decklists/" + msg.id);
     })
     .fail(function( msg) {

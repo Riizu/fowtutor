@@ -30,5 +30,9 @@ $(document).on('turbolinks:load', function() {
           }
         }
       });
-    });  
+    });
+
+    if($('.create-decklist').is(':visible')) {
+      populateDecklist()
+    }
   })
