@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col">
+        <%= content_tag :table, role: :datatable, data: { url: user_collection_path(current_user, collection, format: :json)} do %>
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Attribute</th>
+                    <th>Type</th>
+                    <th>Subtype</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+            </tbody>
+        <% end %>
+    </div>
+</div>

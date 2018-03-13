@@ -1,45 +1,25 @@
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h2>Editing: <%= @decklist.name%></h2>
-        </div>
+<div class="row">
+    <div class="col">
+        <h2>Editing: <%= @decklist.name%></h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <%= render "decklists/deck_display", decklist: @decklist, cards: @decklist_cards %>
+
+        <% if current_user.id == @decklist.user.id %>
+            <%= render "decklists/form", decklist: @decklist, value: "Update Decklist" %>
+        <% else %>
+
+        <% end %>
     </div>
 
-    <div class="row">
-        <div class="col-md-5">
-            <hr>
-                <h4>Decks</h4>
-            <hr>
+    <div class="col-md-7">
+        <% if current_user.id == @decklist.user.id %>
+            <%= render "cards/mini_list" %>
+        <% end %>
 
-            <%= render "decklists/deck_div", deck_name: "Ruler", cards: @ruler_cards %>
-
-            <%= render "decklists/deck_div", deck_name: "Main", cards: @main_cards %>
-
-            <%= render "decklists/deck_div", deck_name: "Stone", cards: @stone_cards %>
-
-            <%= render "decklists/deck_div", deck_name: "Side", cards: @side_cards %>
-
-            <% if current_user.id == @decklist.user.id %>
-                <%= render "decklists/form", decklist: @decklist, value: "Update Decklist" %>
-            <% else %>
-            
-            <% end %>
-        </div>
-
-        <div class="col-md-7">
-            <% if current_user.id == @decklist.user.id %>
-                <%= render "cards/mini_list" %>
-            <% end %>
-
-            <h4>Update Tags</h4>
-            <%= form_for @decklist do |f| %>
-                <div class="form-group">
-                    <%= f.label :tag_list, 'Tags (separated by commas)' %><br/>
-                    <%= f.text_field :tag_list %>
-                </div>
-
-                <%= f.submit class: "btn btn-primary", value: "Update Tags" %> 
-            <% end %>            
-        </div>
+        <%= render "tags/form", target: @decklist %>
     </div>
 </div>

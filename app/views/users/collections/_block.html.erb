@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-md-10">
+        <h4><%= link_to(collection.name, user_collection_path(current_user, collection)) %> (<%= collection.cards_collections.pluck(:amount).reduce(:+) %>)</h4>
+        <h4>Last Updated: <%= collection.updated_at%> </h4>
+    </div>
+    
+    <div class="col-md-2">
+        <%= form_tag(user_collection_path(current_user, collection), method: "DELETE") do %>
+        <div><%= submit_tag 'DELETE', class: "btn btn-sm btn-danger btn-block" %></div>
+    <% end %>
+    </div>
+</div>

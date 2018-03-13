@@ -1,29 +1,24 @@
-<table class="table table-striped">
-    <th scope="col">Name</th>
-    <th scope="col">Author</th>
-    <th scope="col">Created At</th>
-    <th scope="col">Hearts</th>
-    <th scope="col">Favorites</th>
-    <th scope="col">Comments</th>
-    <th></th>
-    <th></th>
+<table class="table">
     <% decklists.each do |decklist| %>
         <tr>
-            <td><%= link_to(decklist.name, decklist_path(decklist)) %></td>
-            <td><%= link_to(decklist.user.username, user_path(decklist.user)) %></td>
-            <td><%= decklist.created_at %></td>
-            <td><%= decklist.hearts.length %></td>
-            <td><%= decklist.favorites.length %></td>
-            <td><%= decklist.comments.length %></td>
-            <% if current_user %>
-                <% unless current_user.favorite_decklists.exists?(id: decklist.id) %>
-                    <td><%= link_to 'Add to favorites', favorite_decklists_path(decklist_id: decklist.id), method: :post %></td>
-                <% else %>
-                    <td><%= link_to 'Remove from favorites', favorite_decklist_path(decklist), method: :delete %></td>
-                <% end %>
-                
-                <td id="<%= dom_id(decklist) %>"><%= render partial: "hearts/button", locals: { decklist: decklist } %></td>
-            <% end %>
+            <td class="hidden-xs">
+                <img src="http://via.placeholder.com/140x80">
+            </td>
+
+            <td>
+                <article>
+                    <h4>
+                        <%= render "decklists/social_statistics", decklist: decklist %>
+                        <%= link_to(decklist.name, decklist_path(decklist)) %>
+                    </h4>
+                        
+                    </h5>
+                        <span>by <%= link_to decklist.user.username, user_path(decklist.user) %></span> 
+                        <span class="small pull-right"> <%= time_ago_in_words(decklist.created_at) %> ago</span>
+                    </h5>
+                </article>
+            </td>
         </tr>
     <% end %>
 </table>
+

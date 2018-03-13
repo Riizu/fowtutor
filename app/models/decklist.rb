@@ -12,6 +12,14 @@ class Decklist < ApplicationRecord
     validates :name, uniqueness: true
     validates :description, presence: true
 
+    def ruler
+        ruler = cards.find { |card| card.card_type.downcase == "ruler" }
+    end
+
+    def j_ruler
+        j_ruler = cards.find { |card| card.card_type.downcase == "j-ruler" }
+    end
+
     def cards_needed_to_build(collections)
         decklist_cards_gbc = group_by_count(cards)    
         matching_collection_cards_gbc = group_collections_by_count(collections, decklist_cards_gbc)
@@ -43,6 +51,15 @@ class Decklist < ApplicationRecord
 
     def cards
         decks.inject([]) { |sum, n| sum + n.cards }
+    end
+
+    def cards_by_deck
+        cards = {}
+        cards[:ruler] = group_by_count(decks.find_by("lower(name) like ?", "%ruler%").cards, false)
+        cards[:main] = group_by_count(decks.find_by("lower(name) like ?", "%main%").cards, false)
+        cards[:stone] = group_by_count(decks.find_by("lower(name) like ?", "%stone%").cards, false)
+        cards[:side] = group_by_count(decks.find_by("lower(name) like ?", "%side%").cards, false)
+        cards
     end
 
     def group_by_count(card_set, downcase = true)
