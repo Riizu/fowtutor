@@ -5,6 +5,15 @@ class DecklistsController < ApplicationController
 
     def index
         @decklists = Decklist.sort_by(params[:sort].to_s, current_user, params[:tag_name]).page(params[:page])
+        @header = "Most Popular"
+        
+        if params[:sort]
+            @header = params[:sort].capitalize
+        end
+
+        if params[:tag_name]
+            @header = params[:tag_name].capitalize.pluralize
+        end
     end
 
     def show
@@ -24,29 +33,40 @@ class DecklistsController < ApplicationController
     def update
         @decklist = Decklist.find(params[:id])
 
-        if @decklist.user.id == current_user.id
+        if @decklist.user == current_user
             if @decklist.update(decklist_params)
                 flash[:success] = "Your decklist has been successfully updated!"
+
                 respond_to do |format|
                     format.json { render json: @decklist }
+                    format.html { redirect_to decklist_path(@decklist) }
                 end
             else
+                
                 flash[:error] = @decklist.errors.full_messages.join(", ")
+
                 respond_to do |format|
                     format.json { render json: "Test" }
+                    format.html { redirect_to edit_decklist_path(@decklist) }
                 end
             end
         else
-            if @decklist.update(tag_list: params[:decklist][:tag_list])
+            if @decklist.update(taglist_params)
                 flash[:success] = "The decklist tags have been successfully updated!"
-                redirect_to decklist_path(@decklist)     
+
+                respond_to do |format|
+                    format.json { render json: @decklist }
+                    format.html { redirect_to decklist_path(@decklist) }
+                end
             else
                 flash[:error] = @decklist.errors.full_messages.join(", ")
+                
                 respond_to do |format|
                     format.json { render json: "Test" }
+                    format.html { redirect_to edit_decklist_path(@decklist) }
                 end
             end
-        end        
+        end
     end
 
     def new
@@ -72,9 +92,14 @@ class DecklistsController < ApplicationController
     end
 
     private
+    def taglist_params
+        params.require(:decklist).permit(:tag_list)
+    end
+    
     def decklist_params
         name = params["decklist"]["name"]
         description = params["decklist"]["description"]
+        tag_list = params["decklist"]["tag_list"]
         decks = []
         
         params["decklist"]["decks"].each do |k, v|
@@ -93,6 +118,6 @@ class DecklistsController < ApplicationController
             decks << Deck.new({name: v["name"], cards: cards })
         end
 
-        {name: name, description: description, decks: decks, tag_list: params[:tag_list]}
+        results = {name: name, description: description, decks: decks, tag_list: tag_list}
     end
 end

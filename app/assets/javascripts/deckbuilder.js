@@ -59,9 +59,8 @@ function updateCardCount(deck_div, count) {
 }
 
 function submitDecklist(e) {
-    e.preventDefault()
-        
-    submission_target = $(this).val().toLowerCase()
+    e.preventDefault();
+    submission_target = $('#decklist-submit').val().toLowerCase();
 
     if(submission_target.includes("update")) {
         submission_target = "PATCH"
@@ -79,6 +78,7 @@ function submitDecklist(e) {
     deck_divs = $(".deck")
     decklist_decks = []
     decklist_name =  $('#name').val()
+    decklist_tags = $('#tag_list').val()
     decklist_description = $("#description").val()
 
     deck_divs.each(function(div) {
@@ -111,7 +111,8 @@ function submitDecklist(e) {
         decklist: {
             name: decklist_name,
             description: decklist_description,
-            decks: decklist_decks
+            decks: decklist_decks,
+            tag_list: decklist_tags
         }
     }
 
@@ -125,5 +126,5 @@ function submitDecklist(e) {
     })
     .fail(function( msg) {
         window.location.replace(fail_target);
-    })   
+    })
 }

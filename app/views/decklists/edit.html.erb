@@ -6,20 +6,18 @@
 
 <div class="row">
     <div class="col-md-5">
-        <%= render "decklists/deck_display", decklist: @decklist, cards: @decklist_cards %>
+        <%= render "decklists/deck_display", decklist: @decklist, cards: @decklist_cards, owned: current_user.id == @decklist.user.id %>
 
         <% if current_user.id == @decklist.user.id %>
             <%= render "decklists/form", decklist: @decklist, value: "Update Decklist" %>
-        <% else %>
-
         <% end %>
     </div>
 
     <div class="col-md-7">
         <% if current_user.id == @decklist.user.id %>
             <%= render "cards/mini_list" %>
+        <% else %>
+            <%= render "tags/form", target: @decklist %>
         <% end %>
-
-        <%= render "tags/form", target: @decklist %>
     </div>
 </div>
