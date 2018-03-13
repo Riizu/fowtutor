@@ -16,7 +16,7 @@
                 <a href="https://placeholder.com"><img src="http://via.placeholder.com/140x80"></a>
             </div>
 
-            <div class="ruler-names text-truncate <%= "color-" + decklist.j_ruler.card_attribute.downcase.gsub("/","-") + "-attribute" %>">
+            <div class="ruler-names text-truncate <%= "color-" + decklist.j_ruler.card_attribute.downcase.gsub("/","-") + "-attribute" if decklist.j_ruler %>">
                 <% if decklist.j_ruler %>
                     <h5><%= link_to decklist.j_ruler.name, card_path(decklist.j_ruler) %></h5>
                 <% else %>

@@ -1,7 +1,7 @@
 <div>
     <% if decklist.tag_list.length > 0 %>
         <% decklist.tag_list.each do |t| %>
-            <%= link_to t, card_tag_path(t) %>
+            <%= link_to t, "/decklists?sort=tag&tag_name=" + t %>
         <% end %>
     <% else %>
         No Tags Exist!

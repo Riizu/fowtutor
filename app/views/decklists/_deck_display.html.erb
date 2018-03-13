@@ -2,10 +2,10 @@
 <h4>Decks</h4>
 <hr>
 
-<%= render "decklists/deck_div", deck_name: "Ruler", cards: cards[:ruler] %>
+<%= render "decklists/deck_div", deck_name: "Ruler", cards: cards[:ruler], owned: owned %>
 
-<%= render "decklists/deck_div", deck_name: "Main", cards: cards[:main] %>
+<%= render "decklists/deck_div", deck_name: "Main", cards: cards[:main], owned: owned %>
 
-<%= render "decklists/deck_div", deck_name: "Stone", cards: cards[:stone] %>
+<%= render "decklists/deck_div", deck_name: "Stone", cards: cards[:stone], owned: owned %>
 
-<%= render "decklists/deck_div", deck_name: "Side", cards: cards[:side] %>
+<%= render "decklists/deck_div", deck_name: "Side", cards: cards[:side], owned: owned %>
