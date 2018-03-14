@@ -3,7 +3,9 @@
 <div class="row">    
     <% @decklists.each_with_index do |decklist, i| %>
         <div class="col-md-6">
-            <%= render "home/card", decklist: decklist %>
+            <% cache decklist do %>
+                <%= render "home/card", decklist: decklist %>
+            <% end %>
         </div>
     <% end %>
 </div>
