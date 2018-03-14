@@ -1,5 +1,6 @@
 <table class="table">
     <% decklists.each do |decklist| %>
+        <% cache decklist do %>
         <tr>
             <td class="hidden-xs">
                 <% if decklist.j_ruler && decklist.j_ruler.image_exists?(decklist.j_ruler.thumbnail_path) %>
@@ -23,6 +24,7 @@
                 </article>
             </td>
         </tr>
+        <% end %>
     <% end %>
 </table>
 
