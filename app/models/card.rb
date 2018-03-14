@@ -22,7 +22,6 @@ class Card < ApplicationRecord
     }
 
     def image_exists?(path)
-        puts path
         Faraday.head(path).status == 200
     end
 
