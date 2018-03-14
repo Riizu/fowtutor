@@ -13,7 +13,7 @@
             <%= render "decklists/social_statistics", decklist: decklist %>
             
             <div class="thumbnail pull-left">
-                <% if decklist.j_ruler.image_exists?(decklist.j_ruler.thumbnail_path) %>
+                <% if decklist.j_ruler && decklist.j_ruler.image_exists?(decklist.j_ruler.thumbnail_path) %>
                     <%= image_tag(decklist.j_ruler.thumbnail_path) %>  
                 <% else %>
                     <a href="https://placeholder.com"><img src="http://via.placeholder.com/140x80"></a>
