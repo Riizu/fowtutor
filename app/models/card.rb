@@ -27,11 +27,11 @@ class Card < ApplicationRecord
     end
 
     def image_path
-        "https://s3.us-west-2.amazonaws.com/fowtutor/cards/" + code.gsub("/","-") + ".jpg"
+        "https://s3.us-west-2.amazonaws.com/fowtutor/cards/" + code.gsub("/","-").gsub(" ", "%20") + ".jpg"
     end
 
     def thumbnail_path
-        "https://s3.us-west-2.amazonaws.com/fowtutor/thumbnails/thumbnail-" + code.gsub("/","-") + ".jpg"
+        "https://s3.us-west-2.amazonaws.com/fowtutor/thumbnails/thumbnail-" + code.gsub("/","-").gsub(" ", "%20") + ".jpg"
     end
 
 
