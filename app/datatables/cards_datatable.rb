@@ -7,14 +7,24 @@ class CardsDatatable < ApplicationDatatable
                 if params["source"] == "mini"
                     column << card.code
 
-                    column << ""\
+                    select_box = ""\
                     '<select class="form-control" id="num-cards">'\
                         '<option value=0>0</option>'\
                         '<option value=1>1</option>'\
                         '<option value=2>2</option>'\
                         '<option value=3>3</option>'\
-                        '<option value=4>4</option>'\
-                    '</select>'.html_safe
+                        '<option value=4>4</option>'
+
+                    if card.card_type.downcase == "basic magic stone"
+                        (5..10).each do |i|
+                            select_box += "<option value=0>#{i}</option>"
+                        end
+
+                    end
+
+                    select_box += '</select>'
+                    select_box = select_box.html_safe
+                    column << select_box
                 else
                     column << card.code
                 end
