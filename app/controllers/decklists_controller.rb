@@ -119,12 +119,15 @@ class DecklistsController < ApplicationController
             if v["cards"] != nil
                 v["cards"].each do |id, card|
                     card["num"].to_i.times do 
-                        cards << Card.find_by(name: card["name"])
+                        card = Card.find_by(code: card["code"])
+                        if card == nil
+                            return nil
+                        else 
+                            cards << card
+                        end
                     end
                 end
             end
-
-            # byebug
 
             decks << Deck.new({name: v["name"], cards: cards })
         end
