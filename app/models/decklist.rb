@@ -55,11 +55,32 @@ class Decklist < ApplicationRecord
 
     def cards_by_deck
         cards = {}
-        cards[:ruler] = group_by_count(decks.find_by("lower(name) like ?", "%ruler%").cards, false)
-        cards[:main] = group_by_count(decks.find_by("lower(name) like ?", "%main%").cards, false)
-        cards[:stone] = group_by_count(decks.find_by("lower(name) like ?", "%stone%").cards, false)
-        cards[:side] = group_by_count(decks.find_by("lower(name) like ?", "%side%").cards, false)
+        cards[:ruler] = group_by_count_and_card(decks.find_by("lower(name) like ?", "%ruler%").cards, false)
+        cards[:main] = group_by_count_and_card(decks.find_by("lower(name) like ?", "%main%").cards, false)
+        cards[:stone] = group_by_count_and_card(decks.find_by("lower(name) like ?", "%stone%").cards, false)
+        cards[:side] = group_by_count_and_card(decks.find_by("lower(name) like ?", "%side%").cards, false)
         cards
+    end
+
+    def group_by_count_and_card(card_set, downcase = true)
+        grouped_cards = {}
+
+        card_set.each do |card|
+            if downcase
+                name = card.name.downcase
+            else
+                name = card.name
+            end
+
+            if grouped_cards[name] == nil
+                grouped_cards[name] = [0, nil]
+            end
+
+            grouped_cards[name][0] += 1
+            grouped_cards[name][1] = card
+        end
+
+        grouped_cards
     end
 
     def group_by_count(card_set, downcase = true)

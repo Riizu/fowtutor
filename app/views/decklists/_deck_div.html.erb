@@ -11,13 +11,13 @@
 
         <div id="<%= deck_name.downcase + "-deck" %>">
             <% if cards %>
-                <% cards.each do |name, amount_and_ids| %>
+                <% cards.each do |name, amount_and_card| %>
                     <% card_name = name.downcase.gsub(" ", "-").gsub("'", "").gsub(",","") %>
                     <div>
                         <% if owned %>
                             <button type='button' class='btn btn-default decklist-remove-card'><i class='fa fa-times'></i></button>
                         <% end %>
-                        <span id="<%= card_name %>"><%= "#{amount_and_ids[0]}x #{name}"%></span>
+                        <span id="<%= amount_and_card[1].code %>"><%= "#{amount_and_card[0]}x #{name} (#{amount_and_card[1].code})"%></span>
                     </div>
                 <% end %>
             <% end %>
