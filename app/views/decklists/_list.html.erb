@@ -1,8 +1,13 @@
 <table class="table">
     <% decklists.each do |decklist| %>
+        <% cache decklist do %>
         <tr>
             <td class="hidden-xs">
-                <img src="http://via.placeholder.com/140x80">
+                <% if decklist.j_ruler && decklist.j_ruler.image_exists?(decklist.j_ruler.thumbnail_path) %>
+                    <%= image_tag(decklist.j_ruler.thumbnail_path) %>  
+                <% else %>
+                    <a href="https://placeholder.com"><img src="http://via.placeholder.com/140x80"></a>
+                <% end %>
             </td>
 
             <td>
@@ -19,6 +24,7 @@
                 </article>
             </td>
         </tr>
+        <% end %>
     <% end %>
 </table>
 

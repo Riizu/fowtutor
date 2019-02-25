@@ -13,7 +13,11 @@
             <%= render "decklists/social_statistics", decklist: decklist %>
             
             <div class="thumbnail pull-left">
-                <a href="https://placeholder.com"><img src="http://via.placeholder.com/140x80"></a>
+                <% if decklist.j_ruler && decklist.j_ruler.image_exists?(decklist.j_ruler.thumbnail_path) %>
+                    <%= image_tag(decklist.j_ruler.thumbnail_path) %>  
+                <% else %>
+                    <a href="https://placeholder.com"><img src="http://via.placeholder.com/140x80"></a>
+                <% end %>
             </div>
 
             <div class="ruler-names text-truncate <%= "color-" + decklist.j_ruler.card_attribute.downcase.gsub("/","-") + "-attribute" if decklist.j_ruler %>">

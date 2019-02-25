@@ -21,14 +21,16 @@ class Card < ApplicationRecord
         end
     }
 
-    def image_exists?
-        path = "cards/" + code.gsub("/","-") + ".jpg"
-        
-        if Rails.configuration.assets.compile
-            Rails.application.precompiled_assets.include? path
-        else
-            Rails.application.assets_manifest.assets[path].present?
-        end
+    def image_exists?(path)
+        Faraday.head(path).status == 200
+    end
+
+    def image_path
+        "https://s3.us-west-2.amazonaws.com/fowtutor/cards/" + code.gsub("/","-").gsub(" ", "%20") + ".jpg"
+    end
+
+    def thumbnail_path
+        "https://s3.us-west-2.amazonaws.com/fowtutor/thumbnails/thumbnail-" + code.gsub("/","-").gsub(" ", "%20") + ".jpg"
     end
 
 
